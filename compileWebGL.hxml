@@ -5,7 +5,7 @@
 #-D trilateral_includeSegments
 -debug
 -lib htmlHelper
-#-lib geom
+-lib geom
 -lib trilateral
 -lib trilateralXtra
 -main Main

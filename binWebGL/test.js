@@ -216,7 +216,7 @@ var Main = function() {
 	this.BACK = false;
 	this.scale = 0.00166666666666666677;
 	this.darkBackground();
-	var this1 = new geom_Mat4x3(1.,0.,0.,0.,0.,1.,0.,0.,0.,0.,1.,0.);
+	var this1 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,1.,0.,0.,0.,0.,1.,0.);
 	this.modelViewProjection = this1;
 	this.setupProgram("attribute vec3 pos;" + "attribute vec4 color;" + "varying vec4 vcol;" + "uniform mat4 modelViewProjection;" + "void main(void) {" + " gl_Position = modelViewProjection * vec4(pos, 1.0);" + " vcol = color;" + "}","precision mediump float;" + "varying vec4 vcol;" + "void main(void) {" + " gl_FragColor = vcol;" + "}");
 	this.trilateralTest = new TrilateralTest(600);
@@ -453,21 +453,21 @@ Main.prototype = $extend(htmlHelper_webgl_WebGLSetup.prototype,{
 		var theta = this.omegaX - Math.PI / 2;
 		var c = Math.cos(theta);
 		var s = Math.sin(theta);
-		var this1 = new geom_Mat4x3(c,-s,0.,0.,s,c,0.,0.,0.,0.,1.,0.);
+		var this1 = new geom_structure_Mat4x3(c,-s,0.,0.,s,c,0.,0.,0.,0.,1.,0.);
 		var rz = this1;
 		var theta1 = this.omegaX - Math.PI / 2;
 		var c1 = Math.cos(theta1);
 		var s1 = Math.sin(theta1);
-		var this2 = new geom_Mat4x3(c1,0.,s1,0.,0.,1.,0.,0.,-s1,0.,c1,0.);
+		var this2 = new geom_structure_Mat4x3(c1,0.,s1,0.,0.,1.,0.,0.,-s1,0.,c1,0.);
 		var ry = this2;
 		var theta2 = this.omegaX - Math.PI / 2;
 		var c2 = Math.cos(theta2);
 		var s2 = Math.sin(theta2);
-		var this3 = new geom_Mat4x3(1.,0.,0.,0.,0.,c2,-s2,0.,0.,s2,c2,0.);
+		var this3 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,c2,-s2,0.,0.,s2,c2,0.);
 		var rx = this3;
-		var this4 = new geom_Mat4x3(rx.a * ry.a + rx.b * ry.e + rx.c * ry.i,rx.a * ry.b + rx.b * ry.f + rx.c * ry.j,rx.a * ry.c + rx.b * ry.g + rx.c + ry.k,rx.a * ry.d + rx.b * ry.h + rx.c * ry.l + rx.d,rx.e * ry.a + rx.f * ry.e + rx.g * ry.i,rx.e * ry.b + rx.f * ry.f + rx.g * ry.j,rx.e * ry.c + rx.f * ry.g + rx.g * ry.k,rx.e * ry.d + rx.f * ry.h + rx.g * ry.l + rx.h,rx.i * ry.a + rx.j * ry.e + rx.k * ry.i,rx.i * ry.b + rx.j * ry.f + rx.k * ry.j,rx.i * ry.c + rx.j * ry.g + rx.k * ry.k,rx.i * ry.d + rx.j * ry.h + rx.k * ry.l + rx.l);
+		var this4 = new geom_structure_Mat4x3(rx.a * ry.a + rx.b * ry.e + rx.c * ry.i,rx.a * ry.b + rx.b * ry.f + rx.c * ry.j,rx.a * ry.c + rx.b * ry.g + rx.c + ry.k,rx.a * ry.d + rx.b * ry.h + rx.c * ry.l + rx.d,rx.e * ry.a + rx.f * ry.e + rx.g * ry.i,rx.e * ry.b + rx.f * ry.f + rx.g * ry.j,rx.e * ry.c + rx.f * ry.g + rx.g * ry.k,rx.e * ry.d + rx.f * ry.h + rx.g * ry.l + rx.h,rx.i * ry.a + rx.j * ry.e + rx.k * ry.i,rx.i * ry.b + rx.j * ry.f + rx.k * ry.j,rx.i * ry.c + rx.j * ry.g + rx.k * ry.k,rx.i * ry.d + rx.j * ry.h + rx.k * ry.l + rx.l);
 		var r = this4;
-		var this5 = new geom_Mat4x3(r.a * rz.a + r.b * rz.e + r.c * rz.i,r.a * rz.b + r.b * rz.f + r.c * rz.j,r.a * rz.c + r.b * rz.g + r.c + rz.k,r.a * rz.d + r.b * rz.h + r.c * rz.l + r.d,r.e * rz.a + r.f * rz.e + r.g * rz.i,r.e * rz.b + r.f * rz.f + r.g * rz.j,r.e * rz.c + r.f * rz.g + r.g * rz.k,r.e * rz.d + r.f * rz.h + r.g * rz.l + r.h,r.i * rz.a + r.j * rz.e + r.k * rz.i,r.i * rz.b + r.j * rz.f + r.k * rz.j,r.i * rz.c + r.j * rz.g + r.k * rz.k,r.i * rz.d + r.j * rz.h + r.k * rz.l + r.l);
+		var this5 = new geom_structure_Mat4x3(r.a * rz.a + r.b * rz.e + r.c * rz.i,r.a * rz.b + r.b * rz.f + r.c * rz.j,r.a * rz.c + r.b * rz.g + r.c + rz.k,r.a * rz.d + r.b * rz.h + r.c * rz.l + r.d,r.e * rz.a + r.f * rz.e + r.g * rz.i,r.e * rz.b + r.f * rz.f + r.g * rz.j,r.e * rz.c + r.f * rz.g + r.g * rz.k,r.e * rz.d + r.f * rz.h + r.g * rz.l + r.h,r.i * rz.a + r.j * rz.e + r.k * rz.i,r.i * rz.b + r.j * rz.f + r.k * rz.j,r.i * rz.c + r.j * rz.g + r.k * rz.k,r.i * rz.d + r.j * rz.h + r.k * rz.l + r.l);
 		var modelViewProjection = this5;
 		var arr = this.matrix32Array;
 		arr.set([modelViewProjection.a,modelViewProjection.b,modelViewProjection.c,modelViewProjection.d,modelViewProjection.e,modelViewProjection.f,modelViewProjection.g,modelViewProjection.h,modelViewProjection.i,modelViewProjection.j,modelViewProjection.k,modelViewProjection.l,0.,0.,0.,1.]);
@@ -481,21 +481,21 @@ Main.prototype = $extend(htmlHelper_webgl_WebGLSetup.prototype,{
 		var theta = this.omegaX - Math.PI / 2;
 		var c = Math.cos(theta);
 		var s = Math.sin(theta);
-		var this1 = new geom_Mat4x3(c,-s,0.,0.,s,c,0.,0.,0.,0.,1.,0.);
+		var this1 = new geom_structure_Mat4x3(c,-s,0.,0.,s,c,0.,0.,0.,0.,1.,0.);
 		var rz = this1;
 		var theta1 = this.omegaX - Math.PI / 2;
 		var c1 = Math.cos(theta1);
 		var s1 = Math.sin(theta1);
-		var this2 = new geom_Mat4x3(c1,0.,s1,0.,0.,1.,0.,0.,-s1,0.,c1,0.);
+		var this2 = new geom_structure_Mat4x3(c1,0.,s1,0.,0.,1.,0.,0.,-s1,0.,c1,0.);
 		var ry = this2;
 		var theta2 = this.omegaX - Math.PI / 2;
 		var c2 = Math.cos(theta2);
 		var s2 = Math.sin(theta2);
-		var this3 = new geom_Mat4x3(1.,0.,0.,0.,0.,c2,-s2,0.,0.,s2,c2,0.);
+		var this3 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,c2,-s2,0.,0.,s2,c2,0.);
 		var rx = this3;
-		var this4 = new geom_Mat4x3(rx.a * ry.a + rx.b * ry.e + rx.c * ry.i,rx.a * ry.b + rx.b * ry.f + rx.c * ry.j,rx.a * ry.c + rx.b * ry.g + rx.c + ry.k,rx.a * ry.d + rx.b * ry.h + rx.c * ry.l + rx.d,rx.e * ry.a + rx.f * ry.e + rx.g * ry.i,rx.e * ry.b + rx.f * ry.f + rx.g * ry.j,rx.e * ry.c + rx.f * ry.g + rx.g * ry.k,rx.e * ry.d + rx.f * ry.h + rx.g * ry.l + rx.h,rx.i * ry.a + rx.j * ry.e + rx.k * ry.i,rx.i * ry.b + rx.j * ry.f + rx.k * ry.j,rx.i * ry.c + rx.j * ry.g + rx.k * ry.k,rx.i * ry.d + rx.j * ry.h + rx.k * ry.l + rx.l);
+		var this4 = new geom_structure_Mat4x3(rx.a * ry.a + rx.b * ry.e + rx.c * ry.i,rx.a * ry.b + rx.b * ry.f + rx.c * ry.j,rx.a * ry.c + rx.b * ry.g + rx.c + ry.k,rx.a * ry.d + rx.b * ry.h + rx.c * ry.l + rx.d,rx.e * ry.a + rx.f * ry.e + rx.g * ry.i,rx.e * ry.b + rx.f * ry.f + rx.g * ry.j,rx.e * ry.c + rx.f * ry.g + rx.g * ry.k,rx.e * ry.d + rx.f * ry.h + rx.g * ry.l + rx.h,rx.i * ry.a + rx.j * ry.e + rx.k * ry.i,rx.i * ry.b + rx.j * ry.f + rx.k * ry.j,rx.i * ry.c + rx.j * ry.g + rx.k * ry.k,rx.i * ry.d + rx.j * ry.h + rx.k * ry.l + rx.l);
 		var r = this4;
-		var this5 = new geom_Mat4x3(r.a * rz.a + r.b * rz.e + r.c * rz.i,r.a * rz.b + r.b * rz.f + r.c * rz.j,r.a * rz.c + r.b * rz.g + r.c + rz.k,r.a * rz.d + r.b * rz.h + r.c * rz.l + r.d,r.e * rz.a + r.f * rz.e + r.g * rz.i,r.e * rz.b + r.f * rz.f + r.g * rz.j,r.e * rz.c + r.f * rz.g + r.g * rz.k,r.e * rz.d + r.f * rz.h + r.g * rz.l + r.h,r.i * rz.a + r.j * rz.e + r.k * rz.i,r.i * rz.b + r.j * rz.f + r.k * rz.j,r.i * rz.c + r.j * rz.g + r.k * rz.k,r.i * rz.d + r.j * rz.h + r.k * rz.l + r.l);
+		var this5 = new geom_structure_Mat4x3(r.a * rz.a + r.b * rz.e + r.c * rz.i,r.a * rz.b + r.b * rz.f + r.c * rz.j,r.a * rz.c + r.b * rz.g + r.c + rz.k,r.a * rz.d + r.b * rz.h + r.c * rz.l + r.d,r.e * rz.a + r.f * rz.e + r.g * rz.i,r.e * rz.b + r.f * rz.f + r.g * rz.j,r.e * rz.c + r.f * rz.g + r.g * rz.k,r.e * rz.d + r.f * rz.h + r.g * rz.l + r.h,r.i * rz.a + r.j * rz.e + r.k * rz.i,r.i * rz.b + r.j * rz.f + r.k * rz.j,r.i * rz.c + r.j * rz.g + r.k * rz.k,r.i * rz.d + r.j * rz.h + r.k * rz.l + r.l);
 		return this5;
 	}
 });
@@ -12364,197 +12364,1351 @@ TrilateralTest.prototype = {
 		}
 	}
 };
-var geom_Mat4x3 = function(a,b,c,d,e,f,g,h,i,j,k,l) {
-	this.l = 0.;
-	this.k = 0.;
-	this.j = 0.;
-	this.i = 0.;
-	this.h = 0.;
-	this.g = 0.;
-	this.f = 0.;
-	this.e = 0.;
-	this.d = 0.;
-	this.c = 0.;
-	this.b = 0.;
-	this.a = 0.;
-	this.a = a;
-	this.b = b;
-	this.c = c;
-	this.d = d;
-	this.e = e;
-	this.f = f;
-	this.g = g;
-	this.h = h;
-	this.i = i;
-	this.j = j;
-	this.k = k;
-	this.l = l;
+var geom__$Matrix1x2_Matrix1x2_$Impl_$ = {};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.__name__ = true;
+geom__$Matrix1x2_Matrix1x2_$Impl_$._new = function(m) {
+	var this1 = m;
+	return this1;
 };
-geom_Mat4x3.__name__ = true;
+geom__$Matrix1x2_Matrix1x2_$Impl_$.clone = function(this1) {
+	var this2 = new geom_structure_Mat1x2(this1.x,this1.y);
+	return this2;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.zero = function() {
+	var this1 = new geom_structure_Mat1x2(0.,0.);
+	return this1;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.unit = function() {
+	var this1 = new geom_structure_Mat1x2(1.,1.);
+	return this1;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.get_magnitude = function(this1) {
+	return Math.sqrt(this1.x * this1.x + this1.y * this1.y);
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.set_magnitude = function(this1,length) {
+	var currentLength = Math.sqrt(this1.x * this1.x + this1.y * this1.y);
+	if(currentLength == 0) {
+		return 0;
+	} else {
+		var mul = length / currentLength;
+		this1.x *= mul;
+		this1.y *= mul;
+		return Math.sqrt(this1.x * this1.x + this1.y * this1.y);
+	}
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.topLeft = function() {
+	var this1 = new geom_structure_Mat1x2(-1.,1.);
+	return this1;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.topRight = function() {
+	var this1 = new geom_structure_Mat1x2(1.,1.);
+	return this1;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.bottomLeft = function() {
+	var this1 = new geom_structure_Mat1x2(-1.,-1.);
+	return this1;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.bottomRight = function() {
+	var this1 = new geom_structure_Mat1x2(1.,-1.);
+	return this1;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.north = function() {
+	var this1 = new geom_structure_Mat1x2(0.,1.);
+	return this1;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.south = function() {
+	var this1 = new geom_structure_Mat1x2(0.,-1.);
+	return this1;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.west = function() {
+	var this1 = new geom_structure_Mat1x2(-1.,0.);
+	return this1;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.east = function() {
+	var this1 = new geom_structure_Mat1x2(1.,0.);
+	return this1;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.add = function(a,b) {
+	var this1 = new geom_structure_Mat1x2(a.x + b.x,a.y + b.y);
+	return this1;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.subtract = function(a,b) {
+	var this1 = new geom_structure_Mat1x2(a.x - b.x,a.y - b.y);
+	return this1;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.dot = function(a,b) {
+	var this1 = new geom_structure_Mat1x2(a.x * b.x,a.y * b.y);
+	return this1;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.scaleMultiply = function(a,v) {
+	var this1 = new geom_structure_Mat1x2(a.x * v,a.y * v);
+	return this1;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.divide = function(a,v) {
+	var v1 = 1 / v;
+	var this1 = new geom_structure_Mat1x2(a.x * v1,a.y * v1);
+	return this1;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.equal = function(a,b) {
+	if(a.x == b.x) {
+		return a.y == b.y;
+	} else {
+		return false;
+	}
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.notEqual = function(a,b) {
+	return !(a.x == b.x && a.y == b.y);
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.perp = function(this1,b) {
+	return this1.x * b.y - this1.y * b.x;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.mid = function(a,b) {
+	var this1 = new geom_structure_Mat1x2((a.x + b.x) / 2,(a.y + b.y) / 2);
+	return this1;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.distanceBetweenSquare = function(this1,b) {
+	var dx = this1.x - b.x;
+	var dy = this1.y - b.y;
+	return dx * dx + dy * dy;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.distanceBetween = function(this1,b) {
+	var dx = this1.x - b.x;
+	var dy = this1.y - b.y;
+	return Math.pow(dx * dx + dy * dy,0.5);
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.span = function(this1,b) {
+	var this2 = new geom_structure_Mat1x2(this1.x - b.x,this1.y - b.y);
+	return this2;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.normalize = function(this1) {
+	var currentLength = Math.sqrt(this1.x * this1.x + this1.y * this1.y);
+	if(currentLength != 0) {
+		var mul = 1. / currentLength;
+		this1.x *= mul;
+		this1.y *= mul;
+		var tmp = this1.x * this1.x + this1.y * this1.y;
+	}
+	return Math.sqrt(this1.x * this1.x + this1.y * this1.y);
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.lenSquare = function(this1) {
+	return this1.x * this1.x + this1.y * this1.y;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.distance = function(this1) {
+	return Math.pow(this1.x * this1.x + this1.y * this1.y,0.5);
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.isLeft = function(this1,a,b) {
+	return (b.x - a.x) * (this1.y - a.y) - (this1.x - a.x) * (b.y - a.y);
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.triangleArea = function(a,b,c) {
+	return Math.abs(((c.x - b.x) * (a.y - b.y) - (a.x - b.x) * (c.y - b.y)) / 2.);
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.sign = function(n) {
+	return Math.abs(n) / n | 0;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.thetaDifference = function(a,b) {
+	var dx = a.x - b.x;
+	var dy = a.y - b.y;
+	return Math.atan2(dy,dx);
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.inTri = function(this1,a,b,c) {
+	var planeAB = (a.x - this1.x) * (b.y - this1.y) - (b.x - this1.x) * (a.y - this1.y);
+	var planeBC = (b.x - this1.x) * (c.y - this1.y) - (c.x - this1.x) * (b.y - this1.y);
+	var planeCA = (c.x - this1.x) * (a.y - this1.y) - (a.x - this1.x) * (c.y - this1.y);
+	if((Math.abs(planeAB) / planeAB | 0) == (Math.abs(planeBC) / planeBC | 0)) {
+		return (Math.abs(planeBC) / planeBC | 0) == (Math.abs(planeCA) / planeCA | 0);
+	} else {
+		return false;
+	}
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.inTri2 = function(this1,a,b,c) {
+	var v0x = c.x - a.x;
+	var v0y = c.y - a.y;
+	var v1x = b.x - a.x;
+	var v1y = b.y - a.y;
+	var v2x = this1.x - a.x;
+	var v2y = this1.y - a.y;
+	var dot00 = v0x * v0x + v0y * v0y;
+	var dot01 = v0x * v1x + v0y * v1y;
+	var dot02 = v0x * v2x + v0y * v2y;
+	var dot11 = v1x * v1x + v1y * v1y;
+	var dot12 = v1x * v2x + v1y * v2y;
+	var invDenom = 1 / (dot00 * dot11 - dot01 * dot01);
+	var u = (dot11 * dot02 - dot01 * dot12) * invDenom;
+	var v = (dot00 * dot12 - dot01 * dot02) * invDenom;
+	if(u >= 0 && v >= 0) {
+		return u + v < 1;
+	} else {
+		return false;
+	}
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.inRect = function(this1,b,c) {
+	var small = 0.0000000001;
+	var minx = Math.min(b.x,c.x);
+	var maxx = Math.max(b.x,c.x);
+	var miny = Math.min(b.y,c.y);
+	var maxy = Math.max(b.y,c.y);
+	if(minx == maxx) {
+		if(miny <= this1.y) {
+			return this1.y <= maxy;
+		} else {
+			return false;
+		}
+	} else if(miny == maxy) {
+		if(minx <= this1.x) {
+			return this1.x <= maxx;
+		} else {
+			return false;
+		}
+	} else if(minx <= this1.x + small && this1.x - small <= maxx && miny <= this1.y + small) {
+		return this1.y - small <= maxy;
+	} else {
+		return false;
+	}
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.convex = function(a,b,c) {
+	return (a.y - b.y) * (c.x - b.x) + (b.x - a.x) * (c.y - b.y) >= 0;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.cross = function(a,b) {
+	return a.x * b.y - a.y * b.x;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.theta = function(this1) {
+	return Math.atan2(this1.y,this1.x);
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.close = function(this1,b,delta) {
+	if(delta == null) {
+		delta = 0.00001;
+	}
+	var dx = this1.x - b.x;
+	if(dx < 0.00001 || dx > -1e-05) {
+		var dy = this1.y - b.y;
+		if(!(dy < 0.00001)) {
+			return dy > -1e-05;
+		} else {
+			return true;
+		}
+	} else {
+		return false;
+	}
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.xClose = function(this1,b,delta) {
+	if(delta == null) {
+		delta = 0.00001;
+	}
+	var dx = this1.x - b.x;
+	if(!(dx < delta)) {
+		return dx > -delta;
+	} else {
+		return true;
+	}
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.yClose = function(this1,b,delta) {
+	if(delta == null) {
+		delta = 0.00001;
+	}
+	var dy = this1.y - b.y;
+	if(!(dy < delta)) {
+		return dy > -delta;
+	} else {
+		return true;
+	}
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.pivotAround = function(this1,omega,pivot) {
+	var px = this1.x - pivot.x;
+	var py = this1.y - pivot.y;
+	var px2 = px * Math.cos(omega) - py * Math.sin(omega);
+	py = py * Math.cos(omega) + px * Math.sin(omega);
+	var this2 = new geom_structure_Mat1x2(px2 + pivot.x,py + pivot.y);
+	return this2;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.toTpoint = function(this1) {
+	return { x : this1.x, y : this1.y};
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.toVec3 = function(this1) {
+	var this2 = new Array(3);
+	var vec = this2;
+	vec[0] = this1.x;
+	vec[1] = this1.y;
+	vec[2] = 1.;
+	return vec;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.fromVec3 = function(v3) {
+	var this1 = new geom_structure_Mat1x2(v3[0],v3[1]);
+	return this1;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.fromArrayPos = function(arr,pos) {
+	var this1 = new geom_structure_Mat1x2(arr[pos],arr[pos + 1]);
+	return this1;
+};
+geom__$Matrix1x2_Matrix1x2_$Impl_$.toArrayPos = function(this1,arr,pos) {
+	arr[pos] = this1.x;
+	arr[pos + 1] = this1.y;
+	return arr;
+};
+var geom__$Matrix1x4_Matrix1x4_$Impl_$ = {};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.__name__ = true;
+geom__$Matrix1x4_Matrix1x4_$Impl_$._new = function(m) {
+	var this1 = m;
+	return this1;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.zero = function() {
+	var this1 = new geom_structure_Mat1x4(0.,0.,0.,0.);
+	return this1;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.unit = function() {
+	var this1 = new geom_structure_Mat1x4(1.,1.,1.,1.);
+	return this1;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.clone = function(this1) {
+	var this2 = new geom_structure_Mat1x4(this1.x,this1.y,this1.z,this1.w);
+	return this2;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.identity = function(out) {
+	out.x = 1.;
+	out.y = 1.;
+	out.z = 1.;
+	out.w = 1.;
+	return out;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.copy = function(pin,pout) {
+	pout.x = pin.x;
+	pout.y = pin.y;
+	pout.z = pin.z;
+	pout.w = pin.w;
+	return pout;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.projectPoint = function(this1) {
+	if(this1.z <= 0) {
+		var this2 = new geom_structure_Mat1x4(0.,0.,this1.z,1.);
+		return this2;
+	} else {
+		var this3 = new geom_structure_Mat1x4(this1.x / this1.z,this1.y / this1.z,this1.z,1.);
+		return this3;
+	}
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.get_magnitude = function(this1) {
+	return Math.sqrt(this1.x * this1.x + this1.y * this1.y + this1.z * this1.z + this1.w * this1.w);
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.set_magnitude = function(this1,length) {
+	var currentLength = Math.sqrt(this1.x * this1.x + this1.y * this1.y + this1.z * this1.z + this1.w * this1.w);
+	if(currentLength == 0.) {
+		return 0.;
+	} else {
+		var mul = length / currentLength;
+		this1.x *= mul;
+		this1.y *= mul;
+		this1.z *= mul;
+		this1.w *= mul;
+		return Math.sqrt(this1.x * this1.x + this1.y * this1.y + this1.z * this1.z + this1.w * this1.w);
+	}
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.equal = function(a,b) {
+	var delta = 0.0000001;
+	return !(Math.abs(a.x - b.x) >= delta || Math.abs(a.y - b.y) >= delta || Math.abs(a.z - b.z) >= delta || Math.abs(a.w - b.w) >= delta);
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.notEqual = function(a,b) {
+	var delta = 0.0000001;
+	return !(!(Math.abs(a.x - b.x) >= delta || Math.abs(a.y - b.y) >= delta || Math.abs(a.z - b.z) >= delta || Math.abs(a.w - b.w) >= delta));
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.magnitudeSquared = function(this1) {
+	return this1.x * this1.x + this1.y * this1.y + this1.z * this1.z + this1.w * this1.w;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.add = function(a,b) {
+	var this1 = new geom_structure_Mat1x4(a.x + b.x,a.y + b.y,a.z + b.z,a.w + b.w);
+	return this1;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.subtract = function(a,b) {
+	var this1 = new geom_structure_Mat1x4(a.x - b.x,a.y - b.y,a.z - b.z,a.w - b.w);
+	return this1;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.scalarProduct = function(a,b) {
+	return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.dotProd = function(this1,b) {
+	return this1.x * b.x + this1.y * b.y + this1.z * b.z + this1.w * b.w;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.scaleMultiply = function(a,v) {
+	var this1 = new geom_structure_Mat1x4(a.x * v,a.y * v,a.z * v,a.w * v);
+	return this1;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.transformPoint = function(this1,t) {
+	var this2 = new geom_structure_Mat1x4(t.a * this1.x + t.b * this1.y + t.c * this1.z + t.d,t.e * this1.x + t.f * this1.y + t.g * this1.z + t.h,t.i * this1.x + t.j * this1.y + t.k * this1.z + t.l,1.);
+	return this2;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.divide = function(a,v) {
+	var v1 = 1 / v;
+	var this1 = new geom_structure_Mat1x4(a.x * v1,a.y * v1,a.z * v1,a.w * v1);
+	return this1;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.divide2 = function(v,a) {
+	var this1 = new geom_structure_Mat1x4(v / a.x,v / a.y,v / a.z,v / a.w);
+	return this1;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.conjugate = function(a) {
+	var this1 = new geom_structure_Mat1x4(-a.x,-a.y,-a.z,a.w);
+	return this1;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.negate = function(a) {
+	var this1 = new geom_structure_Mat1x4(-a.x,-a.y,-a.z,-a.w);
+	return this1;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.multiplyV = function(a,b,out) {
+	var ax = a.x;
+	var ay = a.y;
+	var az = a.z;
+	var aw = a.w;
+	var bx = b.x;
+	var by = b.y;
+	var bz = b.z;
+	var bw = b.w;
+	out.x = ax * bw + aw * bx + ay * bz - az * by;
+	out.y = ay * bw + aw * by + az * bx - ax * bz;
+	out.z = az * bw + aw * bz + ax * by - ay * bx;
+	out.w = aw * bw - ax * bx - ay * by - az * bz;
+	return out;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.multiplyQ = function(q,v,out) {
+	var vx = v.x;
+	var vy = v.y;
+	var vz = v.z;
+	var qx = q.x;
+	var qy = q.y;
+	var qz = q.z;
+	var qw = q.w;
+	out.w = -qx * vx - qy * vy - qz * vz;
+	out.x = qw * vx + qy * vz - qz * vy;
+	out.y = qw * vy - qx * vz + qz * vx;
+	out.z = qw * vz + qx * vy - qy * vx;
+	return out;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.cross = function(this1,v) {
+	var this2 = new geom_structure_Mat1x4(this1.y * v.z - this1.z * v.y,this1.z * v.x - this1.x * v.z,this1.x * v.y - this1.y * v.x,this1.w * v.w);
+	return this2;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.normalize = function(this1) {
+	var currentLength = Math.sqrt(this1.x * this1.x + this1.y * this1.y + this1.z * this1.z + this1.w * this1.w);
+	if(currentLength != 0.) {
+		var mul = 1. / currentLength;
+		this1.x *= mul;
+		this1.y *= mul;
+		this1.z *= mul;
+		this1.w *= mul;
+		var tmp = this1.x * this1.x + this1.y * this1.y + this1.z * this1.z + this1.w * this1.w;
+	}
+	return this1;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.constrainDistance = function(this1,anchor,distance) {
+	var this2 = new geom_structure_Mat1x4(this1.x - anchor.x,this1.y - anchor.y,this1.z - anchor.z,this1.w - anchor.w);
+	var this3 = this2;
+	var currentLength = Math.sqrt(this3.x * this3.x + this3.y * this3.y + this3.z * this3.z + this3.w * this3.w);
+	if(currentLength != 0.) {
+		var mul = 1. / currentLength;
+		this3.x *= mul;
+		this3.y *= mul;
+		this3.z *= mul;
+		this3.w *= mul;
+		var tmp = this3.x * this3.x + this3.y * this3.y + this3.z * this3.z + this3.w * this3.w;
+	}
+	var a = this3;
+	var this4 = new geom_structure_Mat1x4(a.x * distance,a.y * distance,a.z * distance,a.w * distance);
+	var a1 = this4;
+	var this5 = new geom_structure_Mat1x4(a1.x + anchor.x,a1.y + anchor.y,a1.z + anchor.z,a1.w + anchor.w);
+	return this5;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.fromVec = function(vec) {
+	var this1 = new geom_structure_Mat1x4(vec[0],vec[1],vec[2],vec[3]);
+	return this1;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.toVector = function(this1) {
+	var this2 = new Array(4);
+	var vec = this2;
+	vec[0] = this1.x;
+	vec[1] = this1.y;
+	vec[2] = this1.z;
+	vec[3] = this1.w;
+	return vec;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.fromArray = function(arr) {
+	var this1 = new geom_structure_Mat1x4(arr[0],arr[1],arr[2],arr[3]);
+	return this1;
+};
+geom__$Matrix1x4_Matrix1x4_$Impl_$.toArray = function(this1) {
+	return [this1.x,this1.y,this1.z,this1.w];
+};
+var geom__$Matrix2x2_Matrix2x2_$Impl_$ = {};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.__name__ = true;
+geom__$Matrix2x2_Matrix2x2_$Impl_$._new = function(m) {
+	var this1 = m;
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.clone = function(this1) {
+	var this2 = new geom_structure_Mat2x2(this1.a,this1.b,this1.c,this1.d);
+	return this2;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.create = function(this1,a,b,c,d) {
+	var this2 = new geom_structure_Mat2x2(a,b,c,d);
+	this1 = this2;
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.zero = function() {
+	var this1 = new geom_structure_Mat2x2(0.,0.,0.,0.);
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.unit = function() {
+	var this1 = new geom_structure_Mat2x2(1.,0.,0.,1.);
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.topLeft = function() {
+	var this1 = new geom_structure_Mat2x2(1.,0.,0.,-1.);
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.topRight = function() {
+	var this1 = new geom_structure_Mat2x2(1.,0.,0.,1.);
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.bottomLeft = function() {
+	var this1 = new geom_structure_Mat2x2(-1.,0.,0.,-1.);
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.bottomRight = function() {
+	var this1 = new geom_structure_Mat2x2(1.,0.,0.,-1.);
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.north = function() {
+	var this1 = new geom_structure_Mat2x2(0.,0.,0.,1.);
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.south = function() {
+	var this1 = new geom_structure_Mat2x2(0.,0.,0.,-1.);
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.west = function() {
+	var this1 = new geom_structure_Mat2x2(-1.,0.,0.,0.);
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.east = function() {
+	var this1 = new geom_structure_Mat2x2(1.,0.,0.,0.);
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.scale = function(p) {
+	var this1 = new geom_structure_Mat2x2(p.x,0.,0.,p.y);
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.rotation = function(alpha) {
+	var this1 = new geom_structure_Mat2x2(Math.cos(alpha),-Math.sin(alpha),Math.sin(alpha),Math.cos(alpha));
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.transpose = function(this1) {
+	var this2 = new geom_structure_Mat2x2(this1.a,this1.c,this1.b,this1.d);
+	return this2;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.add = function(m0,m1) {
+	var this1 = new geom_structure_Mat2x2(m0.a + m1.a,m0.b + m1.b,m0.c + m1.c,m0.d + m1.d);
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.equal = function(a,b) {
+	var delta = 0.0000001;
+	return !(Math.abs(a.a - b.a) >= delta || Math.abs(a.b - b.b) >= delta || Math.abs(a.c - b.c) >= delta || Math.abs(a.d - b.d) >= delta);
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.notEqual = function(a,b) {
+	var delta = 0.0000001;
+	return !(!(Math.abs(a.a - b.a) >= delta || Math.abs(a.b - b.b) >= delta || Math.abs(a.c - b.c) >= delta || Math.abs(a.d - b.d) >= delta));
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.sub = function(m0,m1) {
+	var this1 = new geom_structure_Mat2x2(m0.a - m1.a,m0.b - m1.b,m0.c - m1.c,m0.d - m1.d);
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.multiplyValue = function(v,m) {
+	var this1 = new geom_structure_Mat2x2(m.a * v,m.b * v,m.c * v,m.d * v);
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.scaleMultiply = function(p,m) {
+	var this1 = new geom_structure_Mat2x2(m.a * p.x,m.b,m.c,m.d * p.y);
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.multiply = function(a2,b2) {
+	var this1 = new geom_structure_Mat2x2(a2.a * b2.a + a2.b * b2.c,a2.a * b2.b + a2.b * b2.d,a2.c * b2.a + a2.d * b2.c,a2.c * b2.b + a2.d * b2.d);
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.multiplyPoint = function(this1,p) {
+	var x = this1.a * p.x + this1.c * p.y;
+	var y = this1.b * p.x + this1.d * p.y;
+	var this2 = new geom_structure_Mat1x2(x,y);
+	return this2;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.det = function(this1) {
+	return this1.a * this1.d - this1.b * this1.c;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.inverse = function(this1) {
+	var d = this1.a * this1.d - this1.b * this1.c;
+	if(d == 0) {
+		return null;
+	} else {
+		var this2 = new geom_structure_Mat2x2(this1.d,-this1.b,-this1.c,this1.a);
+		var adj = this2;
+		var v = 1 / d;
+		var this3 = new geom_structure_Mat2x2(adj.a * v,adj.b * v,adj.c * v,adj.d * v);
+		return this3;
+	}
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.to3x3 = function(this1) {
+	var this2 = new geom_structure_Mat3x3(this1.a,this1.b,0.,this1.c,this1.d,0.,0.,0,1.);
+	return this2;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.to4x3 = function(this1) {
+	var this2 = new geom_structure_Mat4x3(this1.a,this1.b,0.,0.,this1.c,this1.d,0.,0.,0.,0.,0.,0.);
+	return this2;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.from3x3 = function(m3) {
+	var this1 = new geom_structure_Mat2x2(m3.a,m3.b,m3.d,m3.e);
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.from4x3 = function(m4) {
+	var this1 = new geom_structure_Mat2x2(m4.a,m4.b,m4.e,m4.f);
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.fromArr = function(arr) {
+	var this1 = new geom_structure_Mat2x2(arr[0],arr[1],arr[2],arr[3]);
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.toArray = function(this1) {
+	return [this1.a,this1.b,this1.c,this1.d];
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.fromVec = function(vec) {
+	var this1 = new geom_structure_Mat2x2(vec[0],vec[1],vec[2],vec[3]);
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.toVector = function(this1) {
+	var this2 = new Array(4);
+	var vec = this2;
+	vec[0] = this1.a;
+	vec[1] = this1.b;
+	vec[2] = this1.c;
+	vec[3] = this1.d;
+	return vec;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.setXY = function(this1,x,y,v) {
+	switch(x) {
+	case 0:
+		switch(y) {
+		case 0:
+			this1.a = v;
+			break;
+		case 1:
+			this1.c = v;
+			break;
+		default:
+			throw new js__$Boot_HaxeError("bad set " + x + ", " + y + " on Matrix2x2");
+		}
+		break;
+	case 1:
+		switch(y) {
+		case 0:
+			this1.b = v;
+			break;
+		case 1:
+			this1.d = v;
+			break;
+		default:
+			throw new js__$Boot_HaxeError("bad set " + x + ", " + y + " on Matrix2x2");
+		}
+		break;
+	default:
+		throw new js__$Boot_HaxeError("bad set " + x + ", " + y + " on Matrix2x2");
+	}
+	return this1;
+};
+geom__$Matrix2x2_Matrix2x2_$Impl_$.getXY = function(this1,x,y) {
+	switch(x) {
+	case 0:
+		switch(y) {
+		case 0:
+			return this1.a;
+		case 1:
+			return this1.c;
+		default:
+			throw new js__$Boot_HaxeError("bad get " + x + ", " + y + " on Matrix2x2");
+		}
+		break;
+	case 1:
+		switch(y) {
+		case 0:
+			return this1.b;
+		case 1:
+			return this1.d;
+		default:
+			throw new js__$Boot_HaxeError("bad get " + x + ", " + y + " on Matrix2x2");
+		}
+		break;
+	default:
+		throw new js__$Boot_HaxeError("bad get " + x + ", " + y + " on Matrix2x2");
+	}
+};
+var geom__$Matrix3x3_Matrix3x3_$Impl_$ = {};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.__name__ = true;
+geom__$Matrix3x3_Matrix3x3_$Impl_$._new = function(m) {
+	var this1 = m;
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.zero = function() {
+	var this1 = new geom_structure_Mat3x3(0.,0.,0.,0.,0.,0.,0.,0.,0.);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.unit = function() {
+	var this1 = new geom_structure_Mat3x3(1.,0.,0.,0.,1.,0.,0.,0.,1.);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.radianX = function(theta) {
+	var c = Math.cos(theta);
+	var s = Math.sin(theta);
+	var this1 = new geom_structure_Mat3x3(1.,0.,0.,0.,c,-s,0.,s,c);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.rotateX = function(this1,theta) {
+	var c = Math.cos(theta);
+	var s = Math.sin(theta);
+	var this2 = new geom_structure_Mat3x3(1.,0.,0.,0.,c,-s,0.,s,c);
+	var q = this2;
+	var this3 = new geom_structure_Mat3x3(this1.a * q.a + this1.b * q.d + this1.c * q.g,this1.a * q.b + this1.b * q.e + this1.c * q.h,this1.a * q.c + this1.b * q.f + this1.c * q.i,this1.d * q.a + this1.e * this1.d + this1.f * q.g,this1.d * q.b + this1.e * q.e + this1.f * q.h,this1.d * q.c + this1.e * q.f + this1.f * q.i,this1.g * this1.a + this1.h * q.d + this1.i * q.g,this1.g * q.b + this1.h * q.e + this1.i * q.h,this1.g * q.c + this1.h * q.f + this1.i * q.i);
+	return this3;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.radianY = function(theta) {
+	var c = Math.cos(theta);
+	var s = Math.sin(theta);
+	var this1 = new geom_structure_Mat3x3(c,0.,s,0.,1.,0,-s,0.,c);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.rotateY = function(this1,theta) {
+	var c = Math.cos(theta);
+	var s = Math.sin(theta);
+	var this2 = new geom_structure_Mat3x3(c,0.,s,0.,1.,0,-s,0.,c);
+	var q = this2;
+	var this3 = new geom_structure_Mat3x3(this1.a * q.a + this1.b * q.d + this1.c * q.g,this1.a * q.b + this1.b * q.e + this1.c * q.h,this1.a * q.c + this1.b * q.f + this1.c * q.i,this1.d * q.a + this1.e * this1.d + this1.f * q.g,this1.d * q.b + this1.e * q.e + this1.f * q.h,this1.d * q.c + this1.e * q.f + this1.f * q.i,this1.g * this1.a + this1.h * q.d + this1.i * q.g,this1.g * q.b + this1.h * q.e + this1.i * q.h,this1.g * q.c + this1.h * q.f + this1.i * q.i);
+	return this3;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.radianZ = function(theta) {
+	var c = Math.cos(theta);
+	var s = Math.sin(theta);
+	var this1 = new geom_structure_Mat3x3(c,-s,0.,s,c,0.,0.,0.,1.);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.rotateZ = function(this1,theta) {
+	var c = Math.cos(theta);
+	var s = Math.sin(theta);
+	var this2 = new geom_structure_Mat3x3(c,-s,0.,s,c,0.,0.,0.,1.);
+	var q = this2;
+	var this3 = new geom_structure_Mat3x3(this1.a * q.a + this1.b * q.d + this1.c * q.g,this1.a * q.b + this1.b * q.e + this1.c * q.h,this1.a * q.c + this1.b * q.f + this1.c * q.i,this1.d * q.a + this1.e * this1.d + this1.f * q.g,this1.d * q.b + this1.e * q.e + this1.f * q.h,this1.d * q.c + this1.e * q.f + this1.f * q.i,this1.g * this1.a + this1.h * q.d + this1.i * q.g,this1.g * q.b + this1.h * q.e + this1.i * q.h,this1.g * q.c + this1.h * q.f + this1.i * q.i);
+	return this3;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.rotate = function(this1,theta) {
+	var theta1 = -theta;
+	var c = Math.cos(theta1);
+	var s = Math.sin(theta1);
+	var this2 = new geom_structure_Mat3x3(c,-s,0.,s,c,0.,0.,0.,1.);
+	var q = this2;
+	var this3 = new geom_structure_Mat3x3(this1.a * q.a + this1.b * q.d + this1.c * q.g,this1.a * q.b + this1.b * q.e + this1.c * q.h,this1.a * q.c + this1.b * q.f + this1.c * q.i,this1.d * q.a + this1.e * this1.d + this1.f * q.g,this1.d * q.b + this1.e * q.e + this1.f * q.h,this1.d * q.c + this1.e * q.f + this1.f * q.i,this1.g * this1.a + this1.h * q.d + this1.i * q.g,this1.g * q.b + this1.h * q.e + this1.i * q.h,this1.g * q.c + this1.h * q.f + this1.i * q.i);
+	return this3;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.xShear = function(theta) {
+	var this1 = new geom_structure_Mat3x3(1.,Math.tan(theta),0.,0,1.,0.,0.,0.,1.);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.shearX = function(this1,theta) {
+	var this2 = new geom_structure_Mat3x3(1.,Math.tan(theta),0.,0,1.,0.,0.,0.,1.);
+	var q = this2;
+	var this3 = new geom_structure_Mat3x3(this1.a * q.a + this1.b * q.d + this1.c * q.g,this1.a * q.b + this1.b * q.e + this1.c * q.h,this1.a * q.c + this1.b * q.f + this1.c * q.i,this1.d * q.a + this1.e * this1.d + this1.f * q.g,this1.d * q.b + this1.e * q.e + this1.f * q.h,this1.d * q.c + this1.e * q.f + this1.f * q.i,this1.g * this1.a + this1.h * q.d + this1.i * q.g,this1.g * q.b + this1.h * q.e + this1.i * q.h,this1.g * q.c + this1.h * q.f + this1.i * q.i);
+	return this3;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.yShear = function(theta) {
+	var this1 = new geom_structure_Mat3x3(1.,0.,0.,Math.tan(theta),1.,0.,0.,0.,1.);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.shearY = function(this1,theta) {
+	var this2 = new geom_structure_Mat3x3(1.,0.,0.,Math.tan(theta),1.,0.,0.,0.,1.);
+	var q = this2;
+	var this3 = new geom_structure_Mat3x3(this1.a * q.a + this1.b * q.d + this1.c * q.g,this1.a * q.b + this1.b * q.e + this1.c * q.h,this1.a * q.c + this1.b * q.f + this1.c * q.i,this1.d * q.a + this1.e * this1.d + this1.f * q.g,this1.d * q.b + this1.e * q.e + this1.f * q.h,this1.d * q.c + this1.e * q.f + this1.f * q.i,this1.g * this1.a + this1.h * q.d + this1.i * q.g,this1.g * q.b + this1.h * q.e + this1.i * q.h,this1.g * q.c + this1.h * q.f + this1.i * q.i);
+	return this3;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.xFlip = function() {
+	var this1 = new geom_structure_Mat3x3(1.,0.,0.,0,-1.,0.,0.,0.,1.);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.flipX = function(this1) {
+	var this2 = new geom_structure_Mat3x3(1.,0.,0.,0,-1.,0.,0.,0.,1.);
+	var q = this2;
+	var this3 = new geom_structure_Mat3x3(this1.a * q.a + this1.b * q.d + this1.c * q.g,this1.a * q.b + this1.b * q.e + this1.c * q.h,this1.a * q.c + this1.b * q.f + this1.c * q.i,this1.d * q.a + this1.e * this1.d + this1.f * q.g,this1.d * q.b + this1.e * q.e + this1.f * q.h,this1.d * q.c + this1.e * q.f + this1.f * q.i,this1.g * this1.a + this1.h * q.d + this1.i * q.g,this1.g * q.b + this1.h * q.e + this1.i * q.h,this1.g * q.c + this1.h * q.f + this1.i * q.i);
+	return this3;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.yFlip = function() {
+	var this1 = new geom_structure_Mat3x3(-1.,0.,0.,0,1.,0.,0.,0.,1.);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.flipY = function(this1) {
+	var this2 = new geom_structure_Mat3x3(-1.,0.,0.,0,1.,0.,0.,0.,1.);
+	var q = this2;
+	var this3 = new geom_structure_Mat3x3(this1.a * q.a + this1.b * q.d + this1.c * q.g,this1.a * q.b + this1.b * q.e + this1.c * q.h,this1.a * q.c + this1.b * q.f + this1.c * q.i,this1.d * q.a + this1.e * this1.d + this1.f * q.g,this1.d * q.b + this1.e * q.e + this1.f * q.h,this1.d * q.c + this1.e * q.f + this1.f * q.i,this1.g * this1.a + this1.h * q.d + this1.i * q.g,this1.g * q.b + this1.h * q.e + this1.i * q.h,this1.g * q.c + this1.h * q.f + this1.i * q.i);
+	return this3;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.xyFlip = function() {
+	var this1 = new geom_structure_Mat3x3(-1.,0.,0.,0,-1.,0.,0.,0.,1.);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.flipXY = function(this1) {
+	var this2 = new geom_structure_Mat3x3(-1.,0.,0.,0,-1.,0.,0.,0.,1.);
+	var q = this2;
+	var this3 = new geom_structure_Mat3x3(this1.a * q.a + this1.b * q.d + this1.c * q.g,this1.a * q.b + this1.b * q.e + this1.c * q.h,this1.a * q.c + this1.b * q.f + this1.c * q.i,this1.d * q.a + this1.e * this1.d + this1.f * q.g,this1.d * q.b + this1.e * q.e + this1.f * q.h,this1.d * q.c + this1.e * q.f + this1.f * q.i,this1.g * this1.a + this1.h * q.d + this1.i * q.g,this1.g * q.b + this1.h * q.e + this1.i * q.h,this1.g * q.c + this1.h * q.f + this1.i * q.i);
+	return this3;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.sxyz = function(x,y,z) {
+	var this1 = new geom_structure_Mat3x3(x,0.,0.,0.,y,0.,0.,0.,z);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.scaleXYZ = function(this1,x,y,z) {
+	var this2 = new geom_structure_Mat3x3(x,0.,0.,0.,y,0.,0.,0.,z);
+	var q = this2;
+	var this3 = new geom_structure_Mat3x3(this1.a * q.a + this1.b * q.d + this1.c * q.g,this1.a * q.b + this1.b * q.e + this1.c * q.h,this1.a * q.c + this1.b * q.f + this1.c * q.i,this1.d * q.a + this1.e * this1.d + this1.f * q.g,this1.d * q.b + this1.e * q.e + this1.f * q.h,this1.d * q.c + this1.e * q.f + this1.f * q.i,this1.g * this1.a + this1.h * q.d + this1.i * q.g,this1.g * q.b + this1.h * q.e + this1.i * q.h,this1.g * q.c + this1.h * q.f + this1.i * q.i);
+	return this3;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.sx = function(x) {
+	var this1 = new geom_structure_Mat3x3(x,0.,0.,0.,1.,0.,0.,0.,1.);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.scaleX = function(this1,x) {
+	var this2 = new geom_structure_Mat3x3(x,0.,0.,0.,1.,0.,0.,0.,1.);
+	var q = this2;
+	var this3 = new geom_structure_Mat3x3(this1.a * q.a + this1.b * q.d + this1.c * q.g,this1.a * q.b + this1.b * q.e + this1.c * q.h,this1.a * q.c + this1.b * q.f + this1.c * q.i,this1.d * q.a + this1.e * this1.d + this1.f * q.g,this1.d * q.b + this1.e * q.e + this1.f * q.h,this1.d * q.c + this1.e * q.f + this1.f * q.i,this1.g * this1.a + this1.h * q.d + this1.i * q.g,this1.g * q.b + this1.h * q.e + this1.i * q.h,this1.g * q.c + this1.h * q.f + this1.i * q.i);
+	return this3;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.sy = function(y) {
+	var this1 = new geom_structure_Mat3x3(1.,0.,0.,0.,y,0.,0.,0.,1.);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.scaleY = function(this1,y) {
+	var this2 = new geom_structure_Mat3x3(1.,0.,0.,0.,y,0.,0.,0.,1.);
+	var q = this2;
+	var this3 = new geom_structure_Mat3x3(this1.a * q.a + this1.b * q.d + this1.c * q.g,this1.a * q.b + this1.b * q.e + this1.c * q.h,this1.a * q.c + this1.b * q.f + this1.c * q.i,this1.d * q.a + this1.e * this1.d + this1.f * q.g,this1.d * q.b + this1.e * q.e + this1.f * q.h,this1.d * q.c + this1.e * q.f + this1.f * q.i,this1.g * this1.a + this1.h * q.d + this1.i * q.g,this1.g * q.b + this1.h * q.e + this1.i * q.h,this1.g * q.c + this1.h * q.f + this1.i * q.i);
+	return this3;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.sz = function(z) {
+	var this1 = new geom_structure_Mat3x3(1.,0.,0.,0.,1.,0.,0.,0.,z);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.scaleZ = function(this1,z) {
+	var this2 = new geom_structure_Mat3x3(1.,0.,0.,0.,1.,0.,0.,0.,z);
+	var q = this2;
+	var this3 = new geom_structure_Mat3x3(this1.a * q.a + this1.b * q.d + this1.c * q.g,this1.a * q.b + this1.b * q.e + this1.c * q.h,this1.a * q.c + this1.b * q.f + this1.c * q.i,this1.d * q.a + this1.e * this1.d + this1.f * q.g,this1.d * q.b + this1.e * q.e + this1.f * q.h,this1.d * q.c + this1.e * q.f + this1.f * q.i,this1.g * this1.a + this1.h * q.d + this1.i * q.g,this1.g * q.b + this1.h * q.e + this1.i * q.h,this1.g * q.c + this1.h * q.f + this1.i * q.i);
+	return this3;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.scale = function(this1,s) {
+	var this2 = new geom_structure_Mat3x3(s,0.,0.,0.,s,0.,0.,0.,s);
+	var q = this2;
+	var this3 = new geom_structure_Mat3x3(this1.a * q.a + this1.b * q.d + this1.c * q.g,this1.a * q.b + this1.b * q.e + this1.c * q.h,this1.a * q.c + this1.b * q.f + this1.c * q.i,this1.d * q.a + this1.e * this1.d + this1.f * q.g,this1.d * q.b + this1.e * q.e + this1.f * q.h,this1.d * q.c + this1.e * q.f + this1.f * q.i,this1.g * this1.a + this1.h * q.d + this1.i * q.g,this1.g * q.b + this1.h * q.e + this1.i * q.h,this1.g * q.c + this1.h * q.f + this1.i * q.i);
+	var q1 = this3;
+	var this4 = new geom_structure_Mat3x3(this1.a * q1.a + this1.b * q1.d + this1.c * q1.g,this1.a * q1.b + this1.b * q1.e + this1.c * q1.h,this1.a * q1.c + this1.b * q1.f + this1.c * q1.i,this1.d * q1.a + this1.e * this1.d + this1.f * q1.g,this1.d * q1.b + this1.e * q1.e + this1.f * q1.h,this1.d * q1.c + this1.e * q1.f + this1.f * q1.i,this1.g * this1.a + this1.h * q1.d + this1.i * q1.g,this1.g * q1.b + this1.h * q1.e + this1.i * q1.h,this1.g * q1.c + this1.h * q1.f + this1.i * q1.i);
+	return this4;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.scale2D = function(this1,s) {
+	var this2 = new geom_structure_Mat3x3(s,0.,0.,0.,s,0.,0.,0.,1.);
+	var q = this2;
+	var this3 = new geom_structure_Mat3x3(this1.a * q.a + this1.b * q.d + this1.c * q.g,this1.a * q.b + this1.b * q.e + this1.c * q.h,this1.a * q.c + this1.b * q.f + this1.c * q.i,this1.d * q.a + this1.e * this1.d + this1.f * q.g,this1.d * q.b + this1.e * q.e + this1.f * q.h,this1.d * q.c + this1.e * q.f + this1.f * q.i,this1.g * this1.a + this1.h * q.d + this1.i * q.g,this1.g * q.b + this1.h * q.e + this1.i * q.h,this1.g * q.c + this1.h * q.f + this1.i * q.i);
+	return this3;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.tx = function(x) {
+	var this1 = new geom_structure_Mat3x3(1.,0.,x,0.,1.,0.,0.,0.,1.);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.translateX = function(this1,x) {
+	var this2 = new geom_structure_Mat3x3(1.,0.,x,0.,1.,0.,0.,0.,1.);
+	var q = this2;
+	var this3 = new geom_structure_Mat3x3(this1.a * q.a + this1.b * q.d + this1.c * q.g,this1.a * q.b + this1.b * q.e + this1.c * q.h,this1.a * q.c + this1.b * q.f + this1.c * q.i,this1.d * q.a + this1.e * this1.d + this1.f * q.g,this1.d * q.b + this1.e * q.e + this1.f * q.h,this1.d * q.c + this1.e * q.f + this1.f * q.i,this1.g * this1.a + this1.h * q.d + this1.i * q.g,this1.g * q.b + this1.h * q.e + this1.i * q.h,this1.g * q.c + this1.h * q.f + this1.i * q.i);
+	return this3;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.ty = function(y) {
+	var this1 = new geom_structure_Mat3x3(1.,0.,0.,0.,1.,y,0.,0.,1.);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.txy = function(x,y) {
+	var this1 = new geom_structure_Mat3x3(1.,0.,x,0.,1.,y,0.,0.,1.);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.translateXY = function(this1,x,y) {
+	var this2 = new geom_structure_Mat3x3(1.,0.,x,0.,1.,y,0.,0.,1.);
+	var q = this2;
+	var this3 = new geom_structure_Mat3x3(this1.a * q.a + this1.b * q.d + this1.c * q.g,this1.a * q.b + this1.b * q.e + this1.c * q.h,this1.a * q.c + this1.b * q.f + this1.c * q.i,this1.d * q.a + this1.e * this1.d + this1.f * q.g,this1.d * q.b + this1.e * q.e + this1.f * q.h,this1.d * q.c + this1.e * q.f + this1.f * q.i,this1.g * this1.a + this1.h * q.d + this1.i * q.g,this1.g * q.b + this1.h * q.e + this1.i * q.h,this1.g * q.c + this1.h * q.f + this1.i * q.i);
+	return this3;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.add = function(m0,m1) {
+	var this1 = new geom_structure_Mat3x3(m0.a + m1.a,m0.b + m1.b,m0.c + m1.c,m0.d + m1.d,m0.e + m1.e,m0.f + m1.f,m0.d + m1.d,m0.h + m1.h,m0.i + m1.i);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.subtract = function(m0,m1) {
+	var this1 = new geom_structure_Mat3x3(m0.a - m1.a,m0.b - m1.b,m0.c - m1.c,m0.d - m1.d,m0.e - m1.e,m0.f - m1.f,m0.g - m1.g,m0.h - m1.h,m0.i - m1.i);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.scaleMultiply4D = function(p,m) {
+	var this1 = new geom_structure_Mat3x3(m.a * p.x,m.b,m.c,m.d,m.e * p.y,m.f,m.g,m.h,m.i * p.z);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.scaleMultiply2D = function(p,m) {
+	var this1 = new geom_structure_Mat3x3(m.a * p.x,m.b,m.c,m.d,m.e * p.y,m.f,m.g,m.h,m.i);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.scaleMultiply3D = function(p,m) {
+	var this1 = new geom_structure_Mat3x3(m.a * p.x,m.b,m.c,m.d,m.e * p.y,m.f,m.g,m.h,m.i * p.y);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.multiplyV = function(v,m) {
+	var this1 = new geom_structure_Mat3x3(m.a * v,m.b * v,m.c * v,m.d * v,m.e * v,m.f * v,m.g * v,m.h * v,m.i * v);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.multiply = function(p,q) {
+	var this1 = new geom_structure_Mat3x3(p.a * q.a + p.b * q.d + p.c * q.g,p.a * q.b + p.b * q.e + p.c * q.h,p.a * q.c + p.b * q.f + p.c * q.i,p.d * q.a + p.e * p.d + p.f * q.g,p.d * q.b + p.e * q.e + p.f * q.h,p.d * q.c + p.e * q.f + p.f * q.i,p.g * p.a + p.h * q.d + p.i * q.g,p.g * q.b + p.h * q.e + p.i * q.h,p.g * q.c + p.h * q.f + p.i * q.i);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.equal = function(a,b) {
+	var delta = 0.0000001;
+	return !(Math.abs(a.a - b.a) >= delta || Math.abs(a.b - b.b) >= delta || Math.abs(a.c - b.c) >= delta || Math.abs(a.d - b.d) >= delta || Math.abs(a.e - b.e) >= delta || Math.abs(a.f - b.f) >= delta || Math.abs(a.g - b.g) >= delta || Math.abs(a.h - b.h) >= delta || Math.abs(a.i - b.i) >= delta);
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.notEqual = function(a,b) {
+	var delta = 0.0000001;
+	return !(!(Math.abs(a.a - b.a) >= delta || Math.abs(a.b - b.b) >= delta || Math.abs(a.c - b.c) >= delta || Math.abs(a.d - b.d) >= delta || Math.abs(a.e - b.e) >= delta || Math.abs(a.f - b.f) >= delta || Math.abs(a.g - b.g) >= delta || Math.abs(a.h - b.h) >= delta || Math.abs(a.i - b.i) >= delta));
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.cofactor = function(this1,a,b,c,d) {
+	return a * d - b * c;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.det = function(this1) {
+	return this1.a * (this1.e * this1.i - this1.f * this1.h) - this1.b * (this1.d * this1.i - this1.f * this1.g) + this1.c * (this1.d * this1.h - this1.e * this1.g);
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.inverse = function(this1) {
+	var d = this1.a * (this1.e * this1.i - this1.f * this1.h) - this1.b * (this1.d * this1.i - this1.f * this1.g) + this1.c * (this1.d * this1.h - this1.e * this1.g);
+	if(d == 0) {
+		return null;
+	} else {
+		var this2 = new geom_structure_Mat3x3(this1.e * this1.i - this1.f * this1.h,-(this1.d * this1.i - this1.f * this1.g),this1.d * this1.h - this1.e * this1.g,-(this1.b * this1.i - this1.c * this1.h),this1.a * this1.i - this1.c * this1.g,-(this1.a * this1.h - this1.b * this1.g),this1.b * this1.f - this1.c * this1.e,-(this1.a * this1.f - this1.c * this1.d),this1.a * this1.e - this1.b * this1.d);
+		var adj = this2;
+		var v = 1 / d;
+		var this3 = new geom_structure_Mat3x3(adj.a * v,adj.b * v,adj.c * v,adj.d * v,adj.e * v,adj.f * v,adj.g * v,adj.h * v,adj.i * v);
+		return this3;
+	}
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.fromArr = function(arr) {
+	var this1 = new geom_structure_Mat3x3(arr[0],arr[1],arr[2],arr[3],arr[4],arr[5],arr[6],arr[7],arr[8]);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.toArray = function(this1) {
+	return [this1.a,this1.b,this1.c,this1.d,this1.e,this1.f,this1.g,this1.h,this1.i];
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.to2x2 = function(this1) {
+	var this2 = new geom_structure_Mat2x2(this1.a,this1.b,this1.d,this1.e);
+	return this2;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.to3D = function(m2) {
+	var this1 = new geom_structure_Mat3x3(m2.a,m2.b,0.,m2.c,m2.d,0.,0.,0,0.);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.from2x2 = function(m2) {
+	var this1 = new geom_structure_Mat3x3(m2.a,m2.b,0.,m2.c,m2.d,0.,0.,0,1.);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.to4x3 = function(this1) {
+	var this2 = new geom_structure_Mat4x3(this1.a,this1.b,this1.c,0.,this1.d,this1.e,this1.f,0.,this1.g,this1.h,this1.i,0.);
+	return this2;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.from4x3 = function(m4) {
+	var this1 = new geom_structure_Mat3x3(m4.a,m4.b,m4.c,m4.e,m4.f,m4.g,m4.i,m4.j,m4.k);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.fromVec = function(vec) {
+	var this1 = new geom_structure_Mat3x3(vec[0],vec[1],vec[2],vec[3],vec[4],vec[5],vec[6],vec[7],vec[8]);
+	return this1;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.toVector = function(this1) {
+	var this2 = new Array(8);
+	var v = this2;
+	v[0] = this1.a;
+	v[1] = this1.b;
+	v[2] = this1.c;
+	v[3] = this1.d;
+	v[4] = this1.e;
+	v[5] = this1.f;
+	v[6] = this1.g;
+	v[7] = this1.h;
+	v[8] = this1.i;
+	return v;
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.setXY = function(this1,x,y,v) {
+	switch(x) {
+	case 0:
+		switch(y) {
+		case 0:
+			return this1.a = v;
+		case 1:
+			return this1.b = v;
+		case 2:
+			return this1.c = v;
+		default:
+			throw new js__$Boot_HaxeError("bad set " + x + ", " + y + " on Matrix3x3");
+		}
+		break;
+	case 1:
+		switch(y) {
+		case 0:
+			return this1.d = v;
+		case 1:
+			return this1.e = v;
+		case 2:
+			return this1.f = v;
+		default:
+			throw new js__$Boot_HaxeError("bad set " + x + ", " + y + " on Matrix3x3");
+		}
+		break;
+	case 2:
+		switch(y) {
+		case 0:
+			return this1.g = v;
+		case 1:
+			return this1.h = v;
+		case 2:
+			return this1.i = v;
+		default:
+			throw new js__$Boot_HaxeError("bad set " + x + ", " + y + " on Matrix3x3");
+		}
+		break;
+	default:
+		throw new js__$Boot_HaxeError("bad set " + x + ", " + y + " on Matrix3x3");
+	}
+};
+geom__$Matrix3x3_Matrix3x3_$Impl_$.getXY = function(this1,x,y) {
+	switch(x) {
+	case 0:
+		switch(y) {
+		case 0:
+			return this1.a;
+		case 1:
+			return this1.b;
+		case 2:
+			return this1.c;
+		default:
+			throw new js__$Boot_HaxeError("bad get " + x + ", " + y + " on Matrix3x3");
+		}
+		break;
+	case 1:
+		switch(y) {
+		case 0:
+			return this1.d;
+		case 1:
+			return this1.e;
+		case 2:
+			return this1.f;
+		default:
+			throw new js__$Boot_HaxeError("bad get " + x + ", " + y + " on Matrix3x3");
+		}
+		break;
+	case 2:
+		switch(y) {
+		case 0:
+			return this1.g;
+		case 1:
+			return this1.h;
+		case 2:
+			return this1.i;
+		default:
+			throw new js__$Boot_HaxeError("bad get " + x + ", " + y + " on Matrix3x3");
+		}
+		break;
+	default:
+		throw new js__$Boot_HaxeError("bad get " + x + ", " + y + " on Matrix3x3");
+	}
+};
 var geom__$Matrix4x3_Matrix4x3_$Impl_$ = {};
 geom__$Matrix4x3_Matrix4x3_$Impl_$.__name__ = true;
 geom__$Matrix4x3_Matrix4x3_$Impl_$._new = function(m) {
 	var this1 = m;
 	return this1;
 };
-geom__$Matrix4x3_Matrix4x3_$Impl_$.unit = function() {
-	var this1 = new geom_Mat4x3(1.,0.,0.,0.,0.,1.,0.,0.,0.,0.,1.,0.);
+geom__$Matrix4x3_Matrix4x3_$Impl_$.zero = function() {
+	var this1 = new geom_structure_Mat4x3(0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.);
 	return this1;
 };
-geom__$Matrix4x3_Matrix4x3_$Impl_$.zero = function() {
-	var this1 = new geom_Mat4x3(0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.);
+geom__$Matrix4x3_Matrix4x3_$Impl_$.unit = function() {
+	var this1 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,1.,0.,0.,0.,0.,1.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.topLeft = function() {
+	var this1 = new geom_structure_Mat4x3(-1.,0.,0.,0.,0.,1.,0.,0.,0.,0.,0.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.topRight = function() {
+	var this1 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,1.,0.,0.,0.,0.,0.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.bottomLeft = function() {
+	var this1 = new geom_structure_Mat4x3(-1.,0.,0.,0.,0.,-1.,0.,0.,0.,0.,0.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.bottomRight = function() {
+	var this1 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,-1.,0.,0.,0.,0.,0.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.north = function() {
+	var this1 = new geom_structure_Mat4x3(0.,0.,0.,0.,0.,1.,0.,0.,0.,0.,0.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.south = function() {
+	var this1 = new geom_structure_Mat4x3(0.,0.,0.,0.,0.,-1.,0.,0.,0.,0.,0.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.west = function() {
+	var this1 = new geom_structure_Mat4x3(-1.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.east = function() {
+	var this1 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.front = function() {
+	var this1 = new geom_structure_Mat4x3(0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,1.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.frontNorth = function() {
+	var this1 = new geom_structure_Mat4x3(0.,0.,0.,0.,0.,1.,0.,0.,0.,0.,1.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.frontTopLeft = function() {
+	var this1 = new geom_structure_Mat4x3(-1.,0.,0.,0.,0.,1.,0.,0.,0.,0.,1.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.frontTopRight = function() {
+	var this1 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,1.,0.,0.,0.,0.,1.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.frontBottomLeft = function() {
+	var this1 = new geom_structure_Mat4x3(-1.,0.,0.,0.,0.,-1.,0.,0.,0.,0.,1.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.frontBottomRight = function() {
+	var this1 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,-1.,0.,0.,0.,0.,1.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.frontSouth = function() {
+	var this1 = new geom_structure_Mat4x3(0.,0.,0.,0.,0.,-1.,0.,0.,0.,0.,1.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.frontWest = function() {
+	var this1 = new geom_structure_Mat4x3(-1.,0.,0.,0.,0.,0.,0.,0.,0.,0.,1.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.frontEast = function() {
+	var this1 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,0.,0.,0.,0.,0.,1.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.back = function() {
+	var this1 = new geom_structure_Mat4x3(0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,-1.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.backTopLeft = function() {
+	var this1 = new geom_structure_Mat4x3(-1.,0.,0.,0.,0.,1.,0.,0.,0.,0.,-1.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.backTopRight = function() {
+	var this1 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,1.,0.,0.,0.,0.,-1.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.backBottomLeft = function() {
+	var this1 = new geom_structure_Mat4x3(-1.,0.,0.,0.,0.,-1.,0.,0.,0.,0.,-1.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.backBottomRight = function() {
+	var this1 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,-1.,0.,0.,0.,0.,-1.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.backNorth = function() {
+	var this1 = new geom_structure_Mat4x3(0.,0.,0.,0.,0.,1.,0.,0.,0.,0.,-1.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.backSouth = function() {
+	var this1 = new geom_structure_Mat4x3(0.,0.,0.,0.,0.,-1.,0.,0.,0.,0.,-1.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.backWest = function() {
+	var this1 = new geom_structure_Mat4x3(-1.,0.,0.,0.,0.,0.,0.,0.,0.,0.,-1.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.backEast = function() {
+	var this1 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,0.,0.,0.,0.,0.,-1.,0.);
 	return this1;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.radianX = function(theta) {
 	var c = Math.cos(theta);
 	var s = Math.sin(theta);
-	var this1 = new geom_Mat4x3(1.,0.,0.,0.,0.,c,-s,0.,0.,s,c,0.);
+	var this1 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,c,-s,0.,0.,s,c,0.);
 	return this1;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.rotateX = function(this1,theta) {
 	var c = Math.cos(theta);
 	var s = Math.sin(theta);
-	var this2 = new geom_Mat4x3(1.,0.,0.,0.,0.,c,-s,0.,0.,s,c,0.);
+	var this2 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,c,-s,0.,0.,s,c,0.);
 	var s1 = this2;
-	var this3 = new geom_Mat4x3(this1.a * s1.a + this1.b * s1.e + this1.c * s1.i,this1.a * s1.b + this1.b * s1.f + this1.c * s1.j,this1.a * s1.c + this1.b * s1.g + this1.c + s1.k,this1.a * s1.d + this1.b * s1.h + this1.c * s1.l + this1.d,this1.e * s1.a + this1.f * s1.e + this1.g * s1.i,this1.e * s1.b + this1.f * s1.f + this1.g * s1.j,this1.e * s1.c + this1.f * s1.g + this1.g * s1.k,this1.e * s1.d + this1.f * s1.h + this1.g * s1.l + this1.h,this1.i * s1.a + this1.j * s1.e + this1.k * s1.i,this1.i * s1.b + this1.j * s1.f + this1.k * s1.j,this1.i * s1.c + this1.j * s1.g + this1.k * s1.k,this1.i * s1.d + this1.j * s1.h + this1.k * s1.l + this1.l);
+	var this3 = new geom_structure_Mat4x3(this1.a * s1.a + this1.b * s1.e + this1.c * s1.i,this1.a * s1.b + this1.b * s1.f + this1.c * s1.j,this1.a * s1.c + this1.b * s1.g + this1.c + s1.k,this1.a * s1.d + this1.b * s1.h + this1.c * s1.l + this1.d,this1.e * s1.a + this1.f * s1.e + this1.g * s1.i,this1.e * s1.b + this1.f * s1.f + this1.g * s1.j,this1.e * s1.c + this1.f * s1.g + this1.g * s1.k,this1.e * s1.d + this1.f * s1.h + this1.g * s1.l + this1.h,this1.i * s1.a + this1.j * s1.e + this1.k * s1.i,this1.i * s1.b + this1.j * s1.f + this1.k * s1.j,this1.i * s1.c + this1.j * s1.g + this1.k * s1.k,this1.i * s1.d + this1.j * s1.h + this1.k * s1.l + this1.l);
 	return this3;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.radianY = function(theta) {
 	var c = Math.cos(theta);
 	var s = Math.sin(theta);
-	var this1 = new geom_Mat4x3(c,0.,s,0.,0.,1.,0.,0.,-s,0.,c,0.);
+	var this1 = new geom_structure_Mat4x3(c,0.,s,0.,0.,1.,0.,0.,-s,0.,c,0.);
 	return this1;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.rotateY = function(this1,theta) {
 	var c = Math.cos(theta);
 	var s = Math.sin(theta);
-	var this2 = new geom_Mat4x3(c,0.,s,0.,0.,1.,0.,0.,-s,0.,c,0.);
+	var this2 = new geom_structure_Mat4x3(c,0.,s,0.,0.,1.,0.,0.,-s,0.,c,0.);
 	var s1 = this2;
-	var this3 = new geom_Mat4x3(this1.a * s1.a + this1.b * s1.e + this1.c * s1.i,this1.a * s1.b + this1.b * s1.f + this1.c * s1.j,this1.a * s1.c + this1.b * s1.g + this1.c + s1.k,this1.a * s1.d + this1.b * s1.h + this1.c * s1.l + this1.d,this1.e * s1.a + this1.f * s1.e + this1.g * s1.i,this1.e * s1.b + this1.f * s1.f + this1.g * s1.j,this1.e * s1.c + this1.f * s1.g + this1.g * s1.k,this1.e * s1.d + this1.f * s1.h + this1.g * s1.l + this1.h,this1.i * s1.a + this1.j * s1.e + this1.k * s1.i,this1.i * s1.b + this1.j * s1.f + this1.k * s1.j,this1.i * s1.c + this1.j * s1.g + this1.k * s1.k,this1.i * s1.d + this1.j * s1.h + this1.k * s1.l + this1.l);
+	var this3 = new geom_structure_Mat4x3(this1.a * s1.a + this1.b * s1.e + this1.c * s1.i,this1.a * s1.b + this1.b * s1.f + this1.c * s1.j,this1.a * s1.c + this1.b * s1.g + this1.c + s1.k,this1.a * s1.d + this1.b * s1.h + this1.c * s1.l + this1.d,this1.e * s1.a + this1.f * s1.e + this1.g * s1.i,this1.e * s1.b + this1.f * s1.f + this1.g * s1.j,this1.e * s1.c + this1.f * s1.g + this1.g * s1.k,this1.e * s1.d + this1.f * s1.h + this1.g * s1.l + this1.h,this1.i * s1.a + this1.j * s1.e + this1.k * s1.i,this1.i * s1.b + this1.j * s1.f + this1.k * s1.j,this1.i * s1.c + this1.j * s1.g + this1.k * s1.k,this1.i * s1.d + this1.j * s1.h + this1.k * s1.l + this1.l);
 	return this3;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.radianZ = function(theta) {
 	var c = Math.cos(theta);
 	var s = Math.sin(theta);
-	var this1 = new geom_Mat4x3(c,-s,0.,0.,s,c,0.,0.,0.,0.,1.,0.);
+	var this1 = new geom_structure_Mat4x3(c,-s,0.,0.,s,c,0.,0.,0.,0.,1.,0.);
 	return this1;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.rotateZ = function(this1,theta) {
 	var c = Math.cos(theta);
 	var s = Math.sin(theta);
-	var this2 = new geom_Mat4x3(c,-s,0.,0.,s,c,0.,0.,0.,0.,1.,0.);
+	var this2 = new geom_structure_Mat4x3(c,-s,0.,0.,s,c,0.,0.,0.,0.,1.,0.);
 	var s1 = this2;
-	var this3 = new geom_Mat4x3(this1.a * s1.a + this1.b * s1.e + this1.c * s1.i,this1.a * s1.b + this1.b * s1.f + this1.c * s1.j,this1.a * s1.c + this1.b * s1.g + this1.c + s1.k,this1.a * s1.d + this1.b * s1.h + this1.c * s1.l + this1.d,this1.e * s1.a + this1.f * s1.e + this1.g * s1.i,this1.e * s1.b + this1.f * s1.f + this1.g * s1.j,this1.e * s1.c + this1.f * s1.g + this1.g * s1.k,this1.e * s1.d + this1.f * s1.h + this1.g * s1.l + this1.h,this1.i * s1.a + this1.j * s1.e + this1.k * s1.i,this1.i * s1.b + this1.j * s1.f + this1.k * s1.j,this1.i * s1.c + this1.j * s1.g + this1.k * s1.k,this1.i * s1.d + this1.j * s1.h + this1.k * s1.l + this1.l);
+	var this3 = new geom_structure_Mat4x3(this1.a * s1.a + this1.b * s1.e + this1.c * s1.i,this1.a * s1.b + this1.b * s1.f + this1.c * s1.j,this1.a * s1.c + this1.b * s1.g + this1.c + s1.k,this1.a * s1.d + this1.b * s1.h + this1.c * s1.l + this1.d,this1.e * s1.a + this1.f * s1.e + this1.g * s1.i,this1.e * s1.b + this1.f * s1.f + this1.g * s1.j,this1.e * s1.c + this1.f * s1.g + this1.g * s1.k,this1.e * s1.d + this1.f * s1.h + this1.g * s1.l + this1.h,this1.i * s1.a + this1.j * s1.e + this1.k * s1.i,this1.i * s1.b + this1.j * s1.f + this1.k * s1.j,this1.i * s1.c + this1.j * s1.g + this1.k * s1.k,this1.i * s1.d + this1.j * s1.h + this1.k * s1.l + this1.l);
 	return this3;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.sxyz = function(x,y,z) {
-	var this1 = new geom_Mat4x3(x,0.,0.,0.,0.,y,0.,0.,0.,0.,z,0.);
+	var this1 = new geom_structure_Mat4x3(x,0.,0.,0.,0.,y,0.,0.,0.,0.,z,0.);
 	return this1;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.scaleXYZ = function(this1,x,y,z) {
-	var this2 = new geom_Mat4x3(x,0.,0.,0.,0.,y,0.,0.,0.,0.,z,0.);
+	var this2 = new geom_structure_Mat4x3(x,0.,0.,0.,0.,y,0.,0.,0.,0.,z,0.);
 	var s = this2;
-	var this3 = new geom_Mat4x3(this1.a * s.a + this1.b * s.e + this1.c * s.i,this1.a * s.b + this1.b * s.f + this1.c * s.j,this1.a * s.c + this1.b * s.g + this1.c + s.k,this1.a * s.d + this1.b * s.h + this1.c * s.l + this1.d,this1.e * s.a + this1.f * s.e + this1.g * s.i,this1.e * s.b + this1.f * s.f + this1.g * s.j,this1.e * s.c + this1.f * s.g + this1.g * s.k,this1.e * s.d + this1.f * s.h + this1.g * s.l + this1.h,this1.i * s.a + this1.j * s.e + this1.k * s.i,this1.i * s.b + this1.j * s.f + this1.k * s.j,this1.i * s.c + this1.j * s.g + this1.k * s.k,this1.i * s.d + this1.j * s.h + this1.k * s.l + this1.l);
+	var this3 = new geom_structure_Mat4x3(this1.a * s.a + this1.b * s.e + this1.c * s.i,this1.a * s.b + this1.b * s.f + this1.c * s.j,this1.a * s.c + this1.b * s.g + this1.c + s.k,this1.a * s.d + this1.b * s.h + this1.c * s.l + this1.d,this1.e * s.a + this1.f * s.e + this1.g * s.i,this1.e * s.b + this1.f * s.f + this1.g * s.j,this1.e * s.c + this1.f * s.g + this1.g * s.k,this1.e * s.d + this1.f * s.h + this1.g * s.l + this1.h,this1.i * s.a + this1.j * s.e + this1.k * s.i,this1.i * s.b + this1.j * s.f + this1.k * s.j,this1.i * s.c + this1.j * s.g + this1.k * s.k,this1.i * s.d + this1.j * s.h + this1.k * s.l + this1.l);
 	return this3;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.sx = function(x) {
-	var this1 = new geom_Mat4x3(x,0.,0.,0.,0.,1.,0.,0.,0.,0.,1.,0.);
+	var this1 = new geom_structure_Mat4x3(x,0.,0.,0.,0.,1.,0.,0.,0.,0.,1.,0.);
 	return this1;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.scaleX = function(this1,x) {
-	var this2 = new geom_Mat4x3(x,0.,0.,0.,0.,1.,0.,0.,0.,0.,1.,0.);
+	var this2 = new geom_structure_Mat4x3(x,0.,0.,0.,0.,1.,0.,0.,0.,0.,1.,0.);
 	var s = this2;
-	var this3 = new geom_Mat4x3(this1.a * s.a + this1.b * s.e + this1.c * s.i,this1.a * s.b + this1.b * s.f + this1.c * s.j,this1.a * s.c + this1.b * s.g + this1.c + s.k,this1.a * s.d + this1.b * s.h + this1.c * s.l + this1.d,this1.e * s.a + this1.f * s.e + this1.g * s.i,this1.e * s.b + this1.f * s.f + this1.g * s.j,this1.e * s.c + this1.f * s.g + this1.g * s.k,this1.e * s.d + this1.f * s.h + this1.g * s.l + this1.h,this1.i * s.a + this1.j * s.e + this1.k * s.i,this1.i * s.b + this1.j * s.f + this1.k * s.j,this1.i * s.c + this1.j * s.g + this1.k * s.k,this1.i * s.d + this1.j * s.h + this1.k * s.l + this1.l);
+	var this3 = new geom_structure_Mat4x3(this1.a * s.a + this1.b * s.e + this1.c * s.i,this1.a * s.b + this1.b * s.f + this1.c * s.j,this1.a * s.c + this1.b * s.g + this1.c + s.k,this1.a * s.d + this1.b * s.h + this1.c * s.l + this1.d,this1.e * s.a + this1.f * s.e + this1.g * s.i,this1.e * s.b + this1.f * s.f + this1.g * s.j,this1.e * s.c + this1.f * s.g + this1.g * s.k,this1.e * s.d + this1.f * s.h + this1.g * s.l + this1.h,this1.i * s.a + this1.j * s.e + this1.k * s.i,this1.i * s.b + this1.j * s.f + this1.k * s.j,this1.i * s.c + this1.j * s.g + this1.k * s.k,this1.i * s.d + this1.j * s.h + this1.k * s.l + this1.l);
 	return this3;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.sy = function(y) {
-	var this1 = new geom_Mat4x3(1.,0.,0.,0.,0.,y,0.,0.,0.,0.,1.,0.);
+	var this1 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,y,0.,0.,0.,0.,1.,0.);
 	return this1;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.scaleY = function(this1,y) {
-	var this2 = new geom_Mat4x3(1.,0.,0.,0.,0.,y,0.,0.,0.,0.,1.,0.);
+	var this2 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,y,0.,0.,0.,0.,1.,0.);
 	var s = this2;
-	var this3 = new geom_Mat4x3(this1.a * s.a + this1.b * s.e + this1.c * s.i,this1.a * s.b + this1.b * s.f + this1.c * s.j,this1.a * s.c + this1.b * s.g + this1.c + s.k,this1.a * s.d + this1.b * s.h + this1.c * s.l + this1.d,this1.e * s.a + this1.f * s.e + this1.g * s.i,this1.e * s.b + this1.f * s.f + this1.g * s.j,this1.e * s.c + this1.f * s.g + this1.g * s.k,this1.e * s.d + this1.f * s.h + this1.g * s.l + this1.h,this1.i * s.a + this1.j * s.e + this1.k * s.i,this1.i * s.b + this1.j * s.f + this1.k * s.j,this1.i * s.c + this1.j * s.g + this1.k * s.k,this1.i * s.d + this1.j * s.h + this1.k * s.l + this1.l);
+	var this3 = new geom_structure_Mat4x3(this1.a * s.a + this1.b * s.e + this1.c * s.i,this1.a * s.b + this1.b * s.f + this1.c * s.j,this1.a * s.c + this1.b * s.g + this1.c + s.k,this1.a * s.d + this1.b * s.h + this1.c * s.l + this1.d,this1.e * s.a + this1.f * s.e + this1.g * s.i,this1.e * s.b + this1.f * s.f + this1.g * s.j,this1.e * s.c + this1.f * s.g + this1.g * s.k,this1.e * s.d + this1.f * s.h + this1.g * s.l + this1.h,this1.i * s.a + this1.j * s.e + this1.k * s.i,this1.i * s.b + this1.j * s.f + this1.k * s.j,this1.i * s.c + this1.j * s.g + this1.k * s.k,this1.i * s.d + this1.j * s.h + this1.k * s.l + this1.l);
 	return this3;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.sz = function(z) {
-	var this1 = new geom_Mat4x3(1.,0.,0.,0.,0.,1.,0.,0.,0.,0.,z,0.);
+	var this1 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,1.,0.,0.,0.,0.,z,0.);
 	return this1;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.scaleZ = function(this1,z) {
-	var this2 = new geom_Mat4x3(1.,0.,0.,0.,0.,1.,0.,0.,0.,0.,z,0.);
+	var this2 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,1.,0.,0.,0.,0.,z,0.);
 	var s = this2;
-	var this3 = new geom_Mat4x3(this1.a * s.a + this1.b * s.e + this1.c * s.i,this1.a * s.b + this1.b * s.f + this1.c * s.j,this1.a * s.c + this1.b * s.g + this1.c + s.k,this1.a * s.d + this1.b * s.h + this1.c * s.l + this1.d,this1.e * s.a + this1.f * s.e + this1.g * s.i,this1.e * s.b + this1.f * s.f + this1.g * s.j,this1.e * s.c + this1.f * s.g + this1.g * s.k,this1.e * s.d + this1.f * s.h + this1.g * s.l + this1.h,this1.i * s.a + this1.j * s.e + this1.k * s.i,this1.i * s.b + this1.j * s.f + this1.k * s.j,this1.i * s.c + this1.j * s.g + this1.k * s.k,this1.i * s.d + this1.j * s.h + this1.k * s.l + this1.l);
+	var this3 = new geom_structure_Mat4x3(this1.a * s.a + this1.b * s.e + this1.c * s.i,this1.a * s.b + this1.b * s.f + this1.c * s.j,this1.a * s.c + this1.b * s.g + this1.c + s.k,this1.a * s.d + this1.b * s.h + this1.c * s.l + this1.d,this1.e * s.a + this1.f * s.e + this1.g * s.i,this1.e * s.b + this1.f * s.f + this1.g * s.j,this1.e * s.c + this1.f * s.g + this1.g * s.k,this1.e * s.d + this1.f * s.h + this1.g * s.l + this1.h,this1.i * s.a + this1.j * s.e + this1.k * s.i,this1.i * s.b + this1.j * s.f + this1.k * s.j,this1.i * s.c + this1.j * s.g + this1.k * s.k,this1.i * s.d + this1.j * s.h + this1.k * s.l + this1.l);
 	return this3;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.scale = function(this1,s) {
-	var this2 = new geom_Mat4x3(s,0.,0.,0.,0.,s,0.,0.,0.,0.,s,0.);
+	var this2 = new geom_structure_Mat4x3(s,0.,0.,0.,0.,s,0.,0.,0.,0.,s,0.);
 	var s1 = this2;
-	var this3 = new geom_Mat4x3(this1.a * s1.a + this1.b * s1.e + this1.c * s1.i,this1.a * s1.b + this1.b * s1.f + this1.c * s1.j,this1.a * s1.c + this1.b * s1.g + this1.c + s1.k,this1.a * s1.d + this1.b * s1.h + this1.c * s1.l + this1.d,this1.e * s1.a + this1.f * s1.e + this1.g * s1.i,this1.e * s1.b + this1.f * s1.f + this1.g * s1.j,this1.e * s1.c + this1.f * s1.g + this1.g * s1.k,this1.e * s1.d + this1.f * s1.h + this1.g * s1.l + this1.h,this1.i * s1.a + this1.j * s1.e + this1.k * s1.i,this1.i * s1.b + this1.j * s1.f + this1.k * s1.j,this1.i * s1.c + this1.j * s1.g + this1.k * s1.k,this1.i * s1.d + this1.j * s1.h + this1.k * s1.l + this1.l);
+	var this3 = new geom_structure_Mat4x3(this1.a * s1.a + this1.b * s1.e + this1.c * s1.i,this1.a * s1.b + this1.b * s1.f + this1.c * s1.j,this1.a * s1.c + this1.b * s1.g + this1.c + s1.k,this1.a * s1.d + this1.b * s1.h + this1.c * s1.l + this1.d,this1.e * s1.a + this1.f * s1.e + this1.g * s1.i,this1.e * s1.b + this1.f * s1.f + this1.g * s1.j,this1.e * s1.c + this1.f * s1.g + this1.g * s1.k,this1.e * s1.d + this1.f * s1.h + this1.g * s1.l + this1.h,this1.i * s1.a + this1.j * s1.e + this1.k * s1.i,this1.i * s1.b + this1.j * s1.f + this1.k * s1.j,this1.i * s1.c + this1.j * s1.g + this1.k * s1.k,this1.i * s1.d + this1.j * s1.h + this1.k * s1.l + this1.l);
 	var s2 = this3;
-	var this4 = new geom_Mat4x3(this1.a * s2.a + this1.b * s2.e + this1.c * s2.i,this1.a * s2.b + this1.b * s2.f + this1.c * s2.j,this1.a * s2.c + this1.b * s2.g + this1.c + s2.k,this1.a * s2.d + this1.b * s2.h + this1.c * s2.l + this1.d,this1.e * s2.a + this1.f * s2.e + this1.g * s2.i,this1.e * s2.b + this1.f * s2.f + this1.g * s2.j,this1.e * s2.c + this1.f * s2.g + this1.g * s2.k,this1.e * s2.d + this1.f * s2.h + this1.g * s2.l + this1.h,this1.i * s2.a + this1.j * s2.e + this1.k * s2.i,this1.i * s2.b + this1.j * s2.f + this1.k * s2.j,this1.i * s2.c + this1.j * s2.g + this1.k * s2.k,this1.i * s2.d + this1.j * s2.h + this1.k * s2.l + this1.l);
+	var this4 = new geom_structure_Mat4x3(this1.a * s2.a + this1.b * s2.e + this1.c * s2.i,this1.a * s2.b + this1.b * s2.f + this1.c * s2.j,this1.a * s2.c + this1.b * s2.g + this1.c + s2.k,this1.a * s2.d + this1.b * s2.h + this1.c * s2.l + this1.d,this1.e * s2.a + this1.f * s2.e + this1.g * s2.i,this1.e * s2.b + this1.f * s2.f + this1.g * s2.j,this1.e * s2.c + this1.f * s2.g + this1.g * s2.k,this1.e * s2.d + this1.f * s2.h + this1.g * s2.l + this1.h,this1.i * s2.a + this1.j * s2.e + this1.k * s2.i,this1.i * s2.b + this1.j * s2.f + this1.k * s2.j,this1.i * s2.c + this1.j * s2.g + this1.k * s2.k,this1.i * s2.d + this1.j * s2.h + this1.k * s2.l + this1.l);
 	return this4;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.txyz = function(x,y,z) {
-	var this1 = new geom_Mat4x3(1.,0.,0.,x,0.,1.,0.,y,0.,0.,1.,z);
+	var this1 = new geom_structure_Mat4x3(1.,0.,0.,x,0.,1.,0.,y,0.,0.,1.,z);
 	return this1;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.translateXYZ = function(this1,x,y,z) {
-	var this2 = new geom_Mat4x3(1.,0.,0.,x,0.,1.,0.,y,0.,0.,1.,z);
+	var this2 = new geom_structure_Mat4x3(1.,0.,0.,x,0.,1.,0.,y,0.,0.,1.,z);
 	var s = this2;
-	var this3 = new geom_Mat4x3(this1.a * s.a + this1.b * s.e + this1.c * s.i,this1.a * s.b + this1.b * s.f + this1.c * s.j,this1.a * s.c + this1.b * s.g + this1.c + s.k,this1.a * s.d + this1.b * s.h + this1.c * s.l + this1.d,this1.e * s.a + this1.f * s.e + this1.g * s.i,this1.e * s.b + this1.f * s.f + this1.g * s.j,this1.e * s.c + this1.f * s.g + this1.g * s.k,this1.e * s.d + this1.f * s.h + this1.g * s.l + this1.h,this1.i * s.a + this1.j * s.e + this1.k * s.i,this1.i * s.b + this1.j * s.f + this1.k * s.j,this1.i * s.c + this1.j * s.g + this1.k * s.k,this1.i * s.d + this1.j * s.h + this1.k * s.l + this1.l);
+	var this3 = new geom_structure_Mat4x3(this1.a * s.a + this1.b * s.e + this1.c * s.i,this1.a * s.b + this1.b * s.f + this1.c * s.j,this1.a * s.c + this1.b * s.g + this1.c + s.k,this1.a * s.d + this1.b * s.h + this1.c * s.l + this1.d,this1.e * s.a + this1.f * s.e + this1.g * s.i,this1.e * s.b + this1.f * s.f + this1.g * s.j,this1.e * s.c + this1.f * s.g + this1.g * s.k,this1.e * s.d + this1.f * s.h + this1.g * s.l + this1.h,this1.i * s.a + this1.j * s.e + this1.k * s.i,this1.i * s.b + this1.j * s.f + this1.k * s.j,this1.i * s.c + this1.j * s.g + this1.k * s.k,this1.i * s.d + this1.j * s.h + this1.k * s.l + this1.l);
 	return this3;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.tx = function(x) {
-	var this1 = new geom_Mat4x3(1.,0.,0.,x,0.,1.,0.,0.,0.,0.,1.,0.);
+	var this1 = new geom_structure_Mat4x3(1.,0.,0.,x,0.,1.,0.,0.,0.,0.,1.,0.);
 	return this1;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.translateX = function(this1,x) {
-	var this2 = new geom_Mat4x3(1.,0.,0.,x,0.,1.,0.,0.,0.,0.,1.,0.);
+	var this2 = new geom_structure_Mat4x3(1.,0.,0.,x,0.,1.,0.,0.,0.,0.,1.,0.);
 	var s = this2;
-	var this3 = new geom_Mat4x3(this1.a * s.a + this1.b * s.e + this1.c * s.i,this1.a * s.b + this1.b * s.f + this1.c * s.j,this1.a * s.c + this1.b * s.g + this1.c + s.k,this1.a * s.d + this1.b * s.h + this1.c * s.l + this1.d,this1.e * s.a + this1.f * s.e + this1.g * s.i,this1.e * s.b + this1.f * s.f + this1.g * s.j,this1.e * s.c + this1.f * s.g + this1.g * s.k,this1.e * s.d + this1.f * s.h + this1.g * s.l + this1.h,this1.i * s.a + this1.j * s.e + this1.k * s.i,this1.i * s.b + this1.j * s.f + this1.k * s.j,this1.i * s.c + this1.j * s.g + this1.k * s.k,this1.i * s.d + this1.j * s.h + this1.k * s.l + this1.l);
+	var this3 = new geom_structure_Mat4x3(this1.a * s.a + this1.b * s.e + this1.c * s.i,this1.a * s.b + this1.b * s.f + this1.c * s.j,this1.a * s.c + this1.b * s.g + this1.c + s.k,this1.a * s.d + this1.b * s.h + this1.c * s.l + this1.d,this1.e * s.a + this1.f * s.e + this1.g * s.i,this1.e * s.b + this1.f * s.f + this1.g * s.j,this1.e * s.c + this1.f * s.g + this1.g * s.k,this1.e * s.d + this1.f * s.h + this1.g * s.l + this1.h,this1.i * s.a + this1.j * s.e + this1.k * s.i,this1.i * s.b + this1.j * s.f + this1.k * s.j,this1.i * s.c + this1.j * s.g + this1.k * s.k,this1.i * s.d + this1.j * s.h + this1.k * s.l + this1.l);
 	return this3;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.ty = function(y) {
-	var this1 = new geom_Mat4x3(1.,0.,0.,0.,0.,1.,0.,y,0.,0.,1.,0.);
+	var this1 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,1.,0.,y,0.,0.,1.,0.);
 	return this1;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.translateY = function(this1,y) {
-	var this2 = new geom_Mat4x3(1.,0.,0.,0.,0.,1.,0.,y,0.,0.,1.,0.);
+	var this2 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,1.,0.,y,0.,0.,1.,0.);
 	var s = this2;
-	var this3 = new geom_Mat4x3(this1.a * s.a + this1.b * s.e + this1.c * s.i,this1.a * s.b + this1.b * s.f + this1.c * s.j,this1.a * s.c + this1.b * s.g + this1.c + s.k,this1.a * s.d + this1.b * s.h + this1.c * s.l + this1.d,this1.e * s.a + this1.f * s.e + this1.g * s.i,this1.e * s.b + this1.f * s.f + this1.g * s.j,this1.e * s.c + this1.f * s.g + this1.g * s.k,this1.e * s.d + this1.f * s.h + this1.g * s.l + this1.h,this1.i * s.a + this1.j * s.e + this1.k * s.i,this1.i * s.b + this1.j * s.f + this1.k * s.j,this1.i * s.c + this1.j * s.g + this1.k * s.k,this1.i * s.d + this1.j * s.h + this1.k * s.l + this1.l);
+	var this3 = new geom_structure_Mat4x3(this1.a * s.a + this1.b * s.e + this1.c * s.i,this1.a * s.b + this1.b * s.f + this1.c * s.j,this1.a * s.c + this1.b * s.g + this1.c + s.k,this1.a * s.d + this1.b * s.h + this1.c * s.l + this1.d,this1.e * s.a + this1.f * s.e + this1.g * s.i,this1.e * s.b + this1.f * s.f + this1.g * s.j,this1.e * s.c + this1.f * s.g + this1.g * s.k,this1.e * s.d + this1.f * s.h + this1.g * s.l + this1.h,this1.i * s.a + this1.j * s.e + this1.k * s.i,this1.i * s.b + this1.j * s.f + this1.k * s.j,this1.i * s.c + this1.j * s.g + this1.k * s.k,this1.i * s.d + this1.j * s.h + this1.k * s.l + this1.l);
 	return this3;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.tz = function(z) {
-	var this1 = new geom_Mat4x3(1.,0.,0.,0.,0.,1.,0.,0.,0.,0.,1.,z);
+	var this1 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,1.,0.,0.,0.,0.,1.,z);
 	return this1;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.translateZ = function(this1,z) {
-	var this2 = new geom_Mat4x3(1.,0.,0.,0.,0.,1.,0.,0.,0.,0.,1.,z);
+	var this2 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,1.,0.,0.,0.,0.,1.,z);
 	var s = this2;
-	var this3 = new geom_Mat4x3(this1.a * s.a + this1.b * s.e + this1.c * s.i,this1.a * s.b + this1.b * s.f + this1.c * s.j,this1.a * s.c + this1.b * s.g + this1.c + s.k,this1.a * s.d + this1.b * s.h + this1.c * s.l + this1.d,this1.e * s.a + this1.f * s.e + this1.g * s.i,this1.e * s.b + this1.f * s.f + this1.g * s.j,this1.e * s.c + this1.f * s.g + this1.g * s.k,this1.e * s.d + this1.f * s.h + this1.g * s.l + this1.h,this1.i * s.a + this1.j * s.e + this1.k * s.i,this1.i * s.b + this1.j * s.f + this1.k * s.j,this1.i * s.c + this1.j * s.g + this1.k * s.k,this1.i * s.d + this1.j * s.h + this1.k * s.l + this1.l);
+	var this3 = new geom_structure_Mat4x3(this1.a * s.a + this1.b * s.e + this1.c * s.i,this1.a * s.b + this1.b * s.f + this1.c * s.j,this1.a * s.c + this1.b * s.g + this1.c + s.k,this1.a * s.d + this1.b * s.h + this1.c * s.l + this1.d,this1.e * s.a + this1.f * s.e + this1.g * s.i,this1.e * s.b + this1.f * s.f + this1.g * s.j,this1.e * s.c + this1.f * s.g + this1.g * s.k,this1.e * s.d + this1.f * s.h + this1.g * s.l + this1.h,this1.i * s.a + this1.j * s.e + this1.k * s.i,this1.i * s.b + this1.j * s.f + this1.k * s.j,this1.i * s.c + this1.j * s.g + this1.k * s.k,this1.i * s.d + this1.j * s.h + this1.k * s.l + this1.l);
 	return this3;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.txy = function(x,y) {
-	var this1 = new geom_Mat4x3(1.,0.,0.,x,0.,1.,0.,y,0.,0.,1.,0.);
+	var this1 = new geom_structure_Mat4x3(1.,0.,0.,x,0.,1.,0.,y,0.,0.,1.,0.);
 	return this1;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.translateXY = function(this1,x,y) {
-	var this2 = new geom_Mat4x3(1.,0.,0.,x,0.,1.,0.,y,0.,0.,1.,0.);
+	var this2 = new geom_structure_Mat4x3(1.,0.,0.,x,0.,1.,0.,y,0.,0.,1.,0.);
 	var s = this2;
-	var this3 = new geom_Mat4x3(this1.a * s.a + this1.b * s.e + this1.c * s.i,this1.a * s.b + this1.b * s.f + this1.c * s.j,this1.a * s.c + this1.b * s.g + this1.c + s.k,this1.a * s.d + this1.b * s.h + this1.c * s.l + this1.d,this1.e * s.a + this1.f * s.e + this1.g * s.i,this1.e * s.b + this1.f * s.f + this1.g * s.j,this1.e * s.c + this1.f * s.g + this1.g * s.k,this1.e * s.d + this1.f * s.h + this1.g * s.l + this1.h,this1.i * s.a + this1.j * s.e + this1.k * s.i,this1.i * s.b + this1.j * s.f + this1.k * s.j,this1.i * s.c + this1.j * s.g + this1.k * s.k,this1.i * s.d + this1.j * s.h + this1.k * s.l + this1.l);
+	var this3 = new geom_structure_Mat4x3(this1.a * s.a + this1.b * s.e + this1.c * s.i,this1.a * s.b + this1.b * s.f + this1.c * s.j,this1.a * s.c + this1.b * s.g + this1.c + s.k,this1.a * s.d + this1.b * s.h + this1.c * s.l + this1.d,this1.e * s.a + this1.f * s.e + this1.g * s.i,this1.e * s.b + this1.f * s.f + this1.g * s.j,this1.e * s.c + this1.f * s.g + this1.g * s.k,this1.e * s.d + this1.f * s.h + this1.g * s.l + this1.h,this1.i * s.a + this1.j * s.e + this1.k * s.i,this1.i * s.b + this1.j * s.f + this1.k * s.j,this1.i * s.c + this1.j * s.g + this1.k * s.k,this1.i * s.d + this1.j * s.h + this1.k * s.l + this1.l);
 	return this3;
 };
+geom__$Matrix4x3_Matrix4x3_$Impl_$.equal = function(a,b) {
+	var delta = 0.0000001;
+	return !(Math.abs(a.a - b.a) >= delta || Math.abs(a.b - b.b) >= delta || Math.abs(a.c - b.c) >= delta || Math.abs(a.d - b.d) >= delta || Math.abs(a.e - b.e) >= delta || Math.abs(a.f - b.f) >= delta || Math.abs(a.g - b.g) >= delta || Math.abs(a.h - b.h) >= delta || Math.abs(a.i - b.i) >= delta || Math.abs(a.j - b.j) >= delta || Math.abs(a.k - b.k) >= delta || Math.abs(a.l - b.l) >= delta);
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.notEqual = function(a,b) {
+	var delta = 0.0000001;
+	return !(!(Math.abs(a.a - b.a) >= delta || Math.abs(a.b - b.b) >= delta || Math.abs(a.c - b.c) >= delta || Math.abs(a.d - b.d) >= delta || Math.abs(a.e - b.e) >= delta || Math.abs(a.f - b.f) >= delta || Math.abs(a.g - b.g) >= delta || Math.abs(a.h - b.h) >= delta || Math.abs(a.i - b.i) >= delta || Math.abs(a.j - b.j) >= delta || Math.abs(a.k - b.k) >= delta || Math.abs(a.l - b.l) >= delta));
+};
 geom__$Matrix4x3_Matrix4x3_$Impl_$.add = function(m0,m1) {
-	var this1 = new geom_Mat4x3(m0.a + m1.a,m0.b + m1.b,m0.c + m1.c,m0.d + m1.d,m0.e + m1.e,m0.f + m1.f,m0.d + m1.d,m0.h + m1.h,m0.i + m1.i,m0.j + m1.j,m0.k + m1.k,m0.l + m1.l);
+	var this1 = new geom_structure_Mat4x3(m0.a + m1.a,m0.b + m1.b,m0.c + m1.c,m0.d + m1.d,m0.e + m1.e,m0.f + m1.f,m0.d + m1.d,m0.h + m1.h,m0.i + m1.i,m0.j + m1.j,m0.k + m1.k,m0.l + m1.l);
 	return this1;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.sub = function(m0,m1) {
-	var this1 = new geom_Mat4x3(m0.a - m1.a,m0.b - m1.b,m0.c - m1.c,m0.d - m1.d,m0.e - m1.e,m0.f - m1.f,m0.d - m1.d,m0.h - m1.h,m0.i - m1.i,m0.j - m1.j,m0.k - m1.k,m0.l - m1.l);
+	var this1 = new geom_structure_Mat4x3(m0.a - m1.a,m0.b - m1.b,m0.c - m1.c,m0.d - m1.d,m0.e - m1.e,m0.f - m1.f,m0.d - m1.d,m0.h - m1.h,m0.i - m1.i,m0.j - m1.j,m0.k - m1.k,m0.l - m1.l);
 	return this1;
 };
+geom__$Matrix4x3_Matrix4x3_$Impl_$.scaleMultiply1 = function(p,m) {
+	var this1 = new geom_structure_Mat4x3(m.a * p.x,m.b,m.c,m.d,m.e,m.f * p.y,m.g,m.h,m.i,m.j,m.k * p.z,m.l);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.scaleMultiply2 = function(m,p) {
+	var this1 = new geom_structure_Mat4x3(m.a * p.x,m.b,m.c,m.d,m.e,m.f * p.y,m.g,m.h,m.i,m.j,m.k * p.z,m.l);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.scaleDivide = function(m,p) {
+	var this1 = new geom_structure_Mat1x4(1 / p.x,1 / p.y,1 / p.z,1 / p.w);
+	var pd = this1;
+	var this2 = new geom_structure_Mat4x3(m.a * pd.x,m.b,m.c,m.d,m.e,m.f * pd.y,m.g,m.h,m.i,m.j,m.k * pd.z,m.l);
+	return this2;
+};
 geom__$Matrix4x3_Matrix4x3_$Impl_$.multiply = function(r,s) {
-	var this1 = new geom_Mat4x3(r.a * s.a + r.b * s.e + r.c * s.i,r.a * s.b + r.b * s.f + r.c * s.j,r.a * s.c + r.b * s.g + r.c + s.k,r.a * s.d + r.b * s.h + r.c * s.l + r.d,r.e * s.a + r.f * s.e + r.g * s.i,r.e * s.b + r.f * s.f + r.g * s.j,r.e * s.c + r.f * s.g + r.g * s.k,r.e * s.d + r.f * s.h + r.g * s.l + r.h,r.i * s.a + r.j * s.e + r.k * s.i,r.i * s.b + r.j * s.f + r.k * s.j,r.i * s.c + r.j * s.g + r.k * s.k,r.i * s.d + r.j * s.h + r.k * s.l + r.l);
+	var this1 = new geom_structure_Mat4x3(r.a * s.a + r.b * s.e + r.c * s.i,r.a * s.b + r.b * s.f + r.c * s.j,r.a * s.c + r.b * s.g + r.c + s.k,r.a * s.d + r.b * s.h + r.c * s.l + r.d,r.e * s.a + r.f * s.e + r.g * s.i,r.e * s.b + r.f * s.f + r.g * s.j,r.e * s.c + r.f * s.g + r.g * s.k,r.e * s.d + r.f * s.h + r.g * s.l + r.h,r.i * s.a + r.j * s.e + r.k * s.i,r.i * s.b + r.j * s.f + r.k * s.j,r.i * s.c + r.j * s.g + r.k * s.k,r.i * s.d + r.j * s.h + r.k * s.l + r.l);
 	return this1;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.cofactor = function(this1,a,b,c,d,e,f,g,h,i) {
@@ -12605,7 +13759,7 @@ geom__$Matrix4x3_Matrix4x3_$Impl_$.inverse = function(this1) {
 		return null;
 	} else {
 		var detI = 1 / det;
-		var this2 = new geom_Mat4x3(q * detI,(n * k * d - j * o * d - n * c * l + b * o * l + j * c * p - b * k * p) * detI,(f * o * d - n * g * d + n * c * h - b * o * h - f * c * p + b * g * p) * detI,(j * g * d - f * k * d - j * c * h + b * k * h + f * c * l - b * g * l) * detI,r * detI,(i * o * d - m * k * d + m * c * l - a * o * l - i * c * p + a * k * p) * detI,(m * g * d - e * o * d - m * c * h + a * o * h + e * c * p - a * g * p) * detI,(e * k * d - i * g * d + i * c * h - a * k * h - e * c * l + a * g * l) * detI,s * detI,(m * j * d - i * n * d - m * b * l + a * n * l + i * b * p - a * j * p) * detI,(e * n * d - m * f * d + m * b * h - a * n * h - e * b * p + a * f * p) * detI,(i * f * d - e * j * d - i * b * h + a * j * h + e * b * l - a * f * l) * detI);
+		var this2 = new geom_structure_Mat4x3(q * detI,(n * k * d - j * o * d - n * c * l + b * o * l + j * c * p - b * k * p) * detI,(f * o * d - n * g * d + n * c * h - b * o * h - f * c * p + b * g * p) * detI,(j * g * d - f * k * d - j * c * h + b * k * h + f * c * l - b * g * l) * detI,r * detI,(i * o * d - m * k * d + m * c * l - a * o * l - i * c * p + a * k * p) * detI,(m * g * d - e * o * d - m * c * h + a * o * h + e * c * p - a * g * p) * detI,(e * k * d - i * g * d + i * c * h - a * k * h - e * c * l + a * g * l) * detI,s * detI,(m * j * d - i * n * d - m * b * l + a * n * l + i * b * p - a * j * p) * detI,(e * n * d - m * f * d + m * b * h - a * n * h - e * b * p + a * f * p) * detI,(i * f * d - e * j * d - i * b * h + a * j * h + e * b * l - a * f * l) * detI);
 		return this2;
 	}
 };
@@ -12614,23 +13768,129 @@ geom__$Matrix4x3_Matrix4x3_$Impl_$.projectionWindow = function(wid,hi,fov) {
 	var halfHi = hi / 2;
 	var tanHalf = Math.tan(fov / 2);
 	var scale = halfWid / tanHalf;
-	var this1 = new geom_Mat4x3(scale,-0.,-scale,0.,0.,-scale,-halfHi / tanHalf,0.,0.,0.,-1,0.);
+	var this1 = new geom_structure_Mat4x3(scale,-0.,-scale,0.,0.,-scale,-halfHi / tanHalf,0.,0.,0.,-1,0.);
 	return this1;
 };
-geom__$Matrix4x3_Matrix4x3_$Impl_$.invertNormalizedRotation = function(this1) {
-	var this2 = new geom_Mat4x3(this1.a,this1.e,this1.i,0.,this1.b,this1.f,this1.j,0.,this1.c,this1.g,this1.k,0.);
+geom__$Matrix4x3_Matrix4x3_$Impl_$.orientation = function(pos,dir,up) {
+	var this1 = new geom_structure_Mat1x4(dir.y * up.z - dir.z * up.y,dir.z * up.x - dir.x * up.z,dir.x * up.y - dir.y * up.x,dir.w * up.w);
+	var right = this1;
+	var this2 = new geom_structure_Mat4x3(dir.x,up.x,right.x,pos.x,dir.y,up.y,right.y,pos.y,dir.z,up.z,right.z,pos.z);
 	return this2;
 };
+geom__$Matrix4x3_Matrix4x3_$Impl_$.applyRotation = function(this1,p) {
+	var this2 = new geom_structure_Mat1x4(this1.a * p.x + this1.b * p.y + this1.c * p.z,this1.e * p.x + this1.f * p.y + this1.g * p.z,this1.h * p.x + this1.i * p.y + this1.j * p.z,1.);
+	return this2;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.applyInverseRotation = function(this1,p) {
+	var this2 = new geom_structure_Mat1x4(this1.a * p.x + this1.e * p.y + this1.i * p.z,this1.b * p.x + this1.f * p.y + this1.j * p.z,this1.c * p.x + this1.g * p.y + this1.k * p.z,1.);
+	return this2;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.orthonormalizeRotation = function(this1) {
+	var this2 = new geom_structure_Mat1x4(this1.a,this1.e,this1.i,1.);
+	var this3 = this2;
+	var currentLength = Math.sqrt(this3.x * this3.x + this3.y * this3.y + this3.z * this3.z + this3.w * this3.w);
+	if(currentLength != 0.) {
+		var mul = 1. / currentLength;
+		this3.x *= mul;
+		this3.y *= mul;
+		this3.z *= mul;
+		this3.w *= mul;
+		var tmp = this3.x * this3.x + this3.y * this3.y + this3.z * this3.z + this3.w * this3.w;
+	}
+	var new_x = this3;
+	var this4 = new geom_structure_Mat1x4(this1.b,this1.f,this1.j,1.);
+	var v = this4;
+	var this5 = new geom_structure_Mat1x4(new_x.y * v.z - new_x.z * v.y,new_x.z * v.x - new_x.x * v.z,new_x.x * v.y - new_x.y * v.x,new_x.w * v.w);
+	var this6 = this5;
+	var currentLength1 = Math.sqrt(this6.x * this6.x + this6.y * this6.y + this6.z * this6.z + this6.w * this6.w);
+	if(currentLength1 != 0.) {
+		var mul1 = 1. / currentLength1;
+		this6.x *= mul1;
+		this6.y *= mul1;
+		this6.z *= mul1;
+		this6.w *= mul1;
+		var tmp1 = this6.x * this6.x + this6.y * this6.y + this6.z * this6.z + this6.w * this6.w;
+	}
+	var new_z = this6;
+	var this7 = new geom_structure_Mat1x4(new_z.y * new_x.z - new_z.z * new_x.y,new_z.z * new_x.x - new_z.x * new_x.z,new_z.x * new_x.y - new_z.y * new_x.x,new_z.w * new_x.w);
+	var new_y = this7;
+	this1.a = new_x.x;
+	this1.b = new_y.x;
+	this1.c = new_z.x;
+	this1.e = new_x.y;
+	this1.f = new_y.y;
+	this1.g = new_z.y;
+	this1.i = new_x.z;
+	this1.j = new_y.z;
+	this1.k = new_z.z;
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.makeViewFromOrientation = function(this1) {
+	var this2 = new geom_structure_Mat4x3(this1.c,this1.b,-this1.a,this1.d,this1.g,this1.f,-this1.e,this1.h,this1.k,this1.j,-this1.i,this1.l);
+	var m = this2;
+	var this3 = new geom_structure_Mat4x3(m.a,m.e,m.i,0.,m.b,m.f,m.j,0.,m.c,m.g,m.k,0.);
+	var m1 = this3;
+	var this4 = new geom_structure_Mat1x4(m.d,m.h,m.l,1.);
+	var this5 = this4;
+	var this6 = new geom_structure_Mat1x4(m1.a * this5.x + m1.b * this5.y + m1.c * this5.z + m1.d,m1.e * this5.x + m1.f * this5.y + m1.g * this5.z + m1.h,m1.i * this5.x + m1.j * this5.y + m1.k * this5.z + m1.l,1.);
+	var trans_prime = this6;
+	m1.d = -trans_prime.x;
+	m1.h = -trans_prime.y;
+	m1.l = -trans_prime.z;
+	return m1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.invertNormalizedRotation = function(this1) {
+	var this2 = new geom_structure_Mat4x3(this1.a,this1.e,this1.i,0.,this1.b,this1.f,this1.j,0.,this1.c,this1.g,this1.k,0.);
+	return this2;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.invertNormalized = function(this1) {
+	var this2 = new geom_structure_Mat4x3(this1.a,this1.e,this1.i,0.,this1.b,this1.f,this1.j,0.,this1.c,this1.g,this1.k,0.);
+	var m = this2;
+	var this3 = new geom_structure_Mat1x4(this1.d,this1.h,this1.l,1.);
+	var this4 = this3;
+	var this5 = new geom_structure_Mat1x4(m.a * this4.x + m.b * this4.y + m.c * this4.z + m.d,m.e * this4.x + m.f * this4.y + m.g * this4.z + m.h,m.i * this4.x + m.j * this4.y + m.k * this4.z + m.l,1.);
+	var trans_prime = this5;
+	m.d = -trans_prime.x;
+	m.h = -trans_prime.y;
+	m.l = -trans_prime.z;
+	return m;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.toAffineMatrix = function(this1) {
+	return { e0 : this1.a, e4 : this1.b, e8 : this1.c, e12 : this1.d, e1 : this1.e, e5 : this1.f, e9 : this1.g, e13 : this1.h, e2 : this1.i, e6 : this1.j, e10 : this1.k, e14 : this1.l};
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.fromNumbered = function(m) {
+	var this1 = new geom_structure_Mat4x3(m._00,m._10,m._20,m._30,m._01,m._11,m._21,m._31,m._02,m._12,m._22,m._32);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.toNumbered = function(this1) {
+	return { _00 : this1.a, _10 : this1.b, _20 : this1.c, _30 : this1.d, _01 : this1.e, _11 : this1.f, _21 : this1.g, _31 : this1.h, _02 : this1.i, _12 : this1.j, _22 : this1.k, _32 : this1.l, _03 : 0., _13 : 0., _23 : 0., _33 : 1.};
+};
 geom__$Matrix4x3_Matrix4x3_$Impl_$.fromArr = function(arr) {
-	var this1 = new geom_Mat4x3(arr[0],arr[1],arr[2],arr[3],arr[4],arr[5],arr[6],arr[7],arr[8],arr[9],arr[10],arr[11]);
+	var this1 = new geom_structure_Mat4x3(arr[0],arr[1],arr[2],arr[3],arr[4],arr[5],arr[6],arr[7],arr[8],arr[9],arr[10],arr[11]);
 	return this1;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.toArray = function(this1) {
 	return [this1.a,this1.b,this1.c,this1.d,this1.e,this1.f,this1.g,this1.h,this1.i,this1.j,this1.k,this1.l];
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.fromVec = function(v) {
-	var this1 = new geom_Mat4x3(v[0],v[1],v[2],v[3],v[4],v[5],v[6],v[7],v[8],v[9],v[10],v[11]);
+	var this1 = new geom_structure_Mat4x3(v[0],v[1],v[2],v[3],v[4],v[5],v[6],v[7],v[8],v[9],v[10],v[11]);
 	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.from2x2 = function(m2) {
+	var this1 = new geom_structure_Mat4x3(m2.a,m2.b,0.,0.,m2.c,m2.d,0.,0.,0.,0.,1.,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.to2x2 = function(this1) {
+	var this2 = new geom_structure_Mat2x2(this1.a,this1.b,this1.e,this1.f);
+	return this2;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.from3x3 = function(m3) {
+	var this1 = new geom_structure_Mat4x3(m3.a,m3.b,m3.c,0.,m3.d,m3.e,m3.f,0.,m3.g,m3.h,m3.i,0.);
+	return this1;
+};
+geom__$Matrix4x3_Matrix4x3_$Impl_$.to3x3 = function(this1) {
+	var this2 = new geom_structure_Mat3x3(this1.a,this1.b,this1.c,this1.e,this1.f,this1.g,this1.i,this1.j,this1.k);
+	return this2;
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.toVector = function(this1) {
 	var this2 = new Array(12);
@@ -12749,6 +14009,86 @@ geom__$Matrix4x3_Matrix4x3_$Impl_$.toFloat32Array = function(this1,arr) {
 	arr.set([this1.a,this1.b,this1.c,this1.d,this1.e,this1.f,this1.g,this1.h,this1.i,this1.j,this1.k,this1.l,0.,0.,0.,1.]);
 	return arr;
 };
+var geom_structure_Mat1x2 = function(x,y) {
+	this.y = 0.;
+	this.x = 0.;
+	this.x = x;
+	this.y = y;
+};
+geom_structure_Mat1x2.__name__ = true;
+var geom_structure_Mat1x4 = function(x,y,z,w) {
+	if(w == null) {
+		w = 1.;
+	}
+	this.w = 1.;
+	this.z = 0.;
+	this.y = 0.;
+	this.x = 0.;
+	this.x = x;
+	this.y = y;
+	this.z = z;
+	this.w = w;
+};
+geom_structure_Mat1x4.__name__ = true;
+var geom_structure_Mat2x2 = function(a,b,c,d) {
+	this.d = 0.;
+	this.c = 0.;
+	this.b = 0.;
+	this.a = 0.;
+	this.a = a;
+	this.b = b;
+	this.c = c;
+	this.d = d;
+};
+geom_structure_Mat2x2.__name__ = true;
+var geom_structure_Mat3x3 = function(a,b,c,d,e,f,g,h,i) {
+	this.i = 0.;
+	this.h = 0.;
+	this.g = 0.;
+	this.f = 0.;
+	this.e = 0.;
+	this.d = 0.;
+	this.c = 0.;
+	this.b = 0.;
+	this.a = 0.;
+	this.a = a;
+	this.b = b;
+	this.c = c;
+	this.d = d;
+	this.e = e;
+	this.f = f;
+	this.g = g;
+	this.h = h;
+	this.i = i;
+};
+geom_structure_Mat3x3.__name__ = true;
+var geom_structure_Mat4x3 = function(a,b,c,d,e,f,g,h,i,j,k,l) {
+	this.l = 0.;
+	this.k = 0.;
+	this.j = 0.;
+	this.i = 0.;
+	this.h = 0.;
+	this.g = 0.;
+	this.f = 0.;
+	this.e = 0.;
+	this.d = 0.;
+	this.c = 0.;
+	this.b = 0.;
+	this.a = 0.;
+	this.a = a;
+	this.b = b;
+	this.c = c;
+	this.d = d;
+	this.e = e;
+	this.f = f;
+	this.g = g;
+	this.h = h;
+	this.i = i;
+	this.j = j;
+	this.k = k;
+	this.l = l;
+};
+geom_structure_Mat4x3.__name__ = true;
 var htmlHelper_tools_AnimateTimer = function() { };
 htmlHelper_tools_AnimateTimer.__name__ = true;
 htmlHelper_tools_AnimateTimer.create = function() {
@@ -12895,119 +14235,6 @@ js_html__$CanvasElement_CanvasUtil.getContextWebGL = function(canvas,attribs) {
 		return ctx1;
 	}
 	return null;
-};
-var khaMath_Matrix4 = function(_00,_10,_20,_30,_01,_11,_21,_31,_02,_12,_22,_32,_03,_13,_23,_33) {
-	this._00 = _00;
-	this._10 = _10;
-	this._20 = _20;
-	this._30 = _30;
-	this._01 = _01;
-	this._11 = _11;
-	this._21 = _21;
-	this._31 = _31;
-	this._02 = _02;
-	this._12 = _12;
-	this._22 = _22;
-	this._32 = _32;
-	this._03 = _03;
-	this._13 = _13;
-	this._23 = _23;
-	this._33 = _33;
-};
-khaMath_Matrix4.__name__ = true;
-khaMath_Matrix4.orthogonalProjection = function(left,right,bottom,top,zn,zf) {
-	var tx = -(right + left) / (right - left);
-	var ty = -(top + bottom) / (top - bottom);
-	var tz = -(zf + zn) / (zf - zn);
-	return new khaMath_Matrix4(2 / (right - left),0,0,tx,0,2 / (top - bottom),0,ty,0,0,-2 / (zf - zn),tz,0,0,0,1);
-};
-khaMath_Matrix4.perspectiveProjection = function(fovY,aspect,zn,zf) {
-	var uh = 1.0 / Math.tan(fovY / 2 * (Math.PI / 180));
-	var uw = uh / aspect;
-	return new khaMath_Matrix4(uw,0,0,0,0,uh,0,0,0,0,(zf + zn) / (zn - zf),2 * zf * zn / (zn - zf),0,0,-1,0);
-};
-khaMath_Matrix4.lookAt = function(eye,at,up) {
-	var zaxis = new khaMath_Vector3(at.x - eye.x,at.y - eye.y,at.z - eye.z);
-	zaxis.set_length(1);
-	var _x = zaxis.y * up.z - zaxis.z * up.y;
-	var _y = zaxis.z * up.x - zaxis.x * up.z;
-	var _z = zaxis.x * up.y - zaxis.y * up.x;
-	var xaxis = new khaMath_Vector3(_x,_y,_z);
-	xaxis.set_length(1);
-	var _x1 = xaxis.y * zaxis.z - xaxis.z * zaxis.y;
-	var _y1 = xaxis.z * zaxis.x - xaxis.x * zaxis.z;
-	var _z1 = xaxis.x * zaxis.y - xaxis.y * zaxis.x;
-	var yaxis_x = _x1;
-	var yaxis_y = _y1;
-	var yaxis_z = _z1;
-	return new khaMath_Matrix4(xaxis.x,xaxis.y,xaxis.z,-(xaxis.x * eye.x + xaxis.y * eye.y + xaxis.z * eye.z),yaxis_x,yaxis_y,yaxis_z,-(yaxis_x * eye.x + yaxis_y * eye.y + yaxis_z * eye.z),-zaxis.x,-zaxis.y,-zaxis.z,zaxis.x * eye.x + zaxis.y * eye.y + zaxis.z * eye.z,0,0,0,1);
-};
-var khaMath_Vector3 = function(x,y,z) {
-	if(z == null) {
-		z = 0;
-	}
-	if(y == null) {
-		y = 0;
-	}
-	if(x == null) {
-		x = 0;
-	}
-	this.x = x;
-	this.y = y;
-	this.z = z;
-};
-khaMath_Vector3.__name__ = true;
-khaMath_Vector3.prototype = {
-	get_length: function() {
-		return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
-	}
-	,set_length: function(length) {
-		var currentLength = this.get_length();
-		if(currentLength == 0) {
-			return 0;
-		}
-		var mul = length / currentLength;
-		this.x *= mul;
-		this.y *= mul;
-		this.z *= mul;
-		return length;
-	}
-};
-var khaMath_Vector4 = function(x,y,z,w) {
-	if(w == null) {
-		w = 1;
-	}
-	if(z == null) {
-		z = 0;
-	}
-	if(y == null) {
-		y = 0;
-	}
-	if(x == null) {
-		x = 0;
-	}
-	this.x = x;
-	this.y = y;
-	this.z = z;
-	this.w = w;
-};
-khaMath_Vector4.__name__ = true;
-khaMath_Vector4.prototype = {
-	get_length: function() {
-		return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w);
-	}
-	,set_length: function(length) {
-		var currentLength = this.get_length();
-		if(currentLength == 0) {
-			return 0;
-		}
-		var mul = length / currentLength;
-		this.x *= mul;
-		this.y *= mul;
-		this.z *= mul;
-		this.w *= mul;
-		return length;
-	}
 };
 var shaders_Shaders = function() { };
 shaders_Shaders.__name__ = true;
@@ -35875,8 +37102,6 @@ Object.defineProperty(js__$Boot_HaxeError.prototype,"message",{ get : function()
 js_Boot.__toStr = ({ }).toString;
 Main.stageRadius = 600;
 htmlHelper_tools_AnimateTimer.counter = 0;
-khaMath_Matrix4.width = 4;
-khaMath_Matrix4.height = 4;
 shaders_Shaders.vertex = "attribute vec3 pos;" + "attribute vec4 color;" + "varying vec4 vcol;" + "uniform mat4 modelViewProjection;" + "void main(void) {" + " gl_Position = modelViewProjection * vec4(pos, 1.0);" + " vcol = color;" + "}";
 shaders_Shaders.fragment = "precision mediump float;" + "varying vec4 vcol;" + "void main(void) {" + " gl_FragColor = vcol;" + "}";
 trilateral_geom_Algebra.quadStep = 0.03;
