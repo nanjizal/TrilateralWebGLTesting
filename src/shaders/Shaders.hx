@@ -7,7 +7,7 @@ class Shaders{
         'varying vec4 vcol;' +
         'uniform mat4 modelViewProjection;' +
         'void main(void) {' +
-            ' gl_Position = modelViewProjection * vec4(pos, 1.0);' +
+            ' gl_Position = modelViewProjection * vec4(pos, 1.);' +
             ' vcol = color;' +
         '}';
     public static inline var fragment: String =
