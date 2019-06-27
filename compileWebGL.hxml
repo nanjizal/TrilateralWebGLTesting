@@ -6,7 +6,7 @@
 -debug
 -lib htmlHelper
 -lib geom
--lib trilateral
+-lib trilateral 
 -lib trilateralXtra
 -main Main
 #-D js-flatten 

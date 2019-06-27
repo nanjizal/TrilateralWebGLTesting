@@ -214,14 +214,28 @@ htmlHelper_webgl_WebGLSetup.prototype = {
 	}
 };
 var Main = function() {
-	this.quatAxis = new geom_QuatAxis();
+	var qReal = new geom_structure_Mat1x4(0.,0.,0.,1.);
+	var qDual = new geom_structure_Mat1x4(0.,0.,-10.,1.);
+	var currentLength = Math.sqrt(qReal.x * qReal.x + qReal.y * qReal.y + qReal.z * qReal.z + qReal.w * qReal.w);
+	if(currentLength != 0.) {
+		var mul = 1. / currentLength;
+		qReal.x *= mul;
+		qReal.y *= mul;
+		qReal.z *= mul;
+		qReal.w *= mul;
+	}
+	var real = qReal;
+	var q = new geom_structure_Mat1x4(qDual.x,qDual.y,qDual.z,0.);
+	q = new geom_structure_Mat1x4(q.x * 0.5,q.y * 0.5,q.z * 0.5,q.w * 0.5);
+	var dual = new geom_structure_Mat1x4(q.x * real.w + q.y * real.z - q.z * real.y + q.w * real.x,-q.x * real.z + q.y * real.w + q.z * real.x + q.w * real.y,q.x * real.y - q.y * real.x + q.z * real.w + q.w * real.z,-q.x * real.x - q.y * real.y - q.z * real.z + q.w * real.w);
+	this.offset = new geom_structure_DualQ(real,dual);
+	this.axisModel = new geom_Axis();
+	this.model = new geom_structure_DualQ(new geom_structure_Mat1x4(0.,0.,0.,1.),new geom_structure_Mat1x4(0.,0.,0.,0.));
 	htmlHelper_webgl_WebGLSetup.call(this,600,600);
 	this.DEPTH_TEST = false;
 	this.BACK = false;
 	this.scale = 0.00166666666666666677;
 	this.darkBackground();
-	var this1 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,1.,0.,0.,0.,0.,1.,0.);
-	this.modelViewProjection = this1;
 	this.setupProgram("attribute vec3 pos;" + "attribute vec4 color;" + "varying vec4 vcol;" + "uniform mat4 modelViewProjection;" + "void main(void) {" + " gl_Position = modelViewProjection * vec4(pos, 1.);" + " vcol = color;" + "}","precision mediump float;" + "varying vec4 vcol;" + "void main(void) {" + " gl_FragColor = vcol;" + "}");
 	this.trilateralTest = new TrilateralTest(600);
 	this.trilateralTest.setup();
@@ -236,6 +250,7 @@ var Main = function() {
 	var j = 0;
 	var ox = -1.0;
 	var oy = 1.0;
+	var oz = 0.;
 	var no = 0;
 	var _g = 0;
 	while(_g < triangles.length) {
@@ -243,13 +258,13 @@ var Main = function() {
 		++_g;
 		this.vertices[i++] = tri1.ax * this.scale + ox;
 		this.vertices[i++] = -tri1.ay * this.scale + oy;
-		this.vertices[i++] = tri1.depth;
+		this.vertices[i++] = tri1.depth + oz;
 		this.vertices[i++] = tri1.bx * this.scale + ox;
 		this.vertices[i++] = -tri1.by * this.scale + oy;
-		this.vertices[i++] = tri1.depth;
+		this.vertices[i++] = tri1.depth + oz;
 		this.vertices[i++] = tri1.cx * this.scale + ox;
 		this.vertices[i++] = -tri1.cy * this.scale + oy;
-		this.vertices[i++] = tri1.depth;
+		this.vertices[i++] = tri1.depth + oz;
 		if(tri1.mark != 0) {
 			var int = triangleColors[tri1.mark];
 			rgb = { r : (int >> 16 & 255) / 255, g : (int >> 8 & 255) / 255, b : (int & 255) / 255};
@@ -274,13 +289,13 @@ var Main = function() {
 		this.indices[j++] = count++;
 		this.vertices[i++] = tri1.ax * this.scale + ox;
 		this.vertices[i++] = -tri1.ay * this.scale + oy;
-		this.vertices[i++] = tri1.depth;
+		this.vertices[i++] = tri1.depth + oz;
 		this.vertices[i++] = tri1.cx * this.scale + ox;
 		this.vertices[i++] = -tri1.cy * this.scale + oy;
-		this.vertices[i++] = tri1.depth;
+		this.vertices[i++] = tri1.depth + oz;
 		this.vertices[i++] = tri1.bx * this.scale + ox;
 		this.vertices[i++] = -tri1.by * this.scale + oy;
-		this.vertices[i++] = tri1.depth;
+		this.vertices[i++] = tri1.depth + oz;
 		if(tri1.mark != 0) {
 			var int2 = triangleColors[tri1.mark];
 			rgb = { r : (int2 >> 16 & 255) / 255, g : (int2 >> 8 & 255) / 255, b : (int2 & 255) / 255};
@@ -358,157 +373,233 @@ Main.prototype = $extend(htmlHelper_webgl_WebGLSetup.prototype,{
 	}
 	,commandDown: function() {
 		if(this.characterInput.cmdDown) {
-			var _this = this.quatAxis;
 			var v = -1.;
-			_this.rzTrinary.set_trit(v);
-			if(_this.rzTrinary.changed) {
+			var _this = this.axisModel.rz;
+			_this.trinary.set_trit(v);
+			if(_this.trinary.changed) {
 				if(v == 0.) {
-					_this.zAxis = 0.;
+					_this.value = 0.;
 				} else {
 					var f = v;
-					_this.zAxis = f * geom_QuatAxis.stepSize;
+					_this.value = -f * _this.step;
 				}
 			}
 		} else if(this.characterInput.altDown) {
-			var _this1 = this.quatAxis;
 			var v1 = 1.;
-			_this1.rzTrinary.set_trit(v1);
-			if(_this1.rzTrinary.changed) {
+			var _this1 = this.axisModel.rz;
+			_this1.trinary.set_trit(v1);
+			if(_this1.trinary.changed) {
 				if(v1 == 0.) {
-					_this1.zAxis = 0.;
+					_this1.value = 0.;
 				} else {
 					var f1 = v1;
-					_this1.zAxis = f1 * geom_QuatAxis.stepSize;
+					_this1.value = -f1 * _this1.step;
 				}
 			}
 		} else {
-			var _this2 = this.quatAxis;
 			var v2 = 0.;
-			_this2.rzTrinary.set_trit(v2);
-			if(_this2.rzTrinary.changed) {
+			var _this2 = this.axisModel.rz;
+			_this2.trinary.set_trit(v2);
+			if(_this2.trinary.changed) {
 				if(v2 == 0.) {
-					_this2.zAxis = 0.;
+					_this2.value = 0.;
 				} else {
 					var f2 = v2;
-					_this2.zAxis = f2 * geom_QuatAxis.stepSize;
+					_this2.value = -f2 * _this2.step;
 				}
 			}
 		}
-	}
-	,navDown: function() {
-		if(this.characterInput.leftDown) {
-			var _this = this.quatAxis;
-			var v = 1.;
-			_this.ryTrinary.set_trit(v);
-			if(_this.ryTrinary.changed) {
-				if(v == 0.) {
-					_this.yAxis = 0.;
+		if(this.characterInput.tabDown) {
+			var v3 = 1.;
+			var _this3 = this.axisModel.ty;
+			_this3.trinary.set_trit(v3);
+			if(_this3.trinary.changed) {
+				if(v3 == 0.) {
+					_this3.value = 0.;
 				} else {
-					var f = v;
-					_this.yAxis = f * geom_QuatAxis.stepSize;
+					var f3 = v3;
+					_this3.value = -f3 * _this3.step;
 				}
 			}
-		} else if(this.characterInput.rightDown) {
-			var _this1 = this.quatAxis;
-			var v1 = -1.;
-			_this1.ryTrinary.set_trit(v1);
-			if(_this1.ryTrinary.changed) {
-				if(v1 == 0.) {
-					_this1.yAxis = 0.;
+		} else if(this.characterInput.shiftDown) {
+			var v4 = -1.;
+			var _this4 = this.axisModel.ty;
+			_this4.trinary.set_trit(v4);
+			if(_this4.trinary.changed) {
+				if(v4 == 0.) {
+					_this4.value = 0.;
 				} else {
-					var f1 = v1;
-					_this1.yAxis = f1 * geom_QuatAxis.stepSize;
+					var f4 = v4;
+					_this4.value = -f4 * _this4.step;
 				}
 			}
 		} else {
-			var _this2 = this.quatAxis;
+			var v5 = 0.;
+			var _this5 = this.axisModel.ty;
+			_this5.trinary.set_trit(v5);
+			if(_this5.trinary.changed) {
+				if(v5 == 0.) {
+					_this5.value = 0.;
+				} else {
+					var f5 = v5;
+					_this5.value = -f5 * _this5.step;
+				}
+			}
+		}
+		if(this.characterInput.spaceDown) {
+			var v6 = 1.;
+			var _this6 = this.axisModel.tx;
+			_this6.trinary.set_trit(v6);
+			if(_this6.trinary.changed) {
+				if(v6 == 0.) {
+					_this6.value = 0.;
+				} else {
+					var f6 = v6;
+					_this6.value = -f6 * _this6.step;
+				}
+			}
+		} else if(this.characterInput.controlDown) {
+			var v7 = -1.;
+			var _this7 = this.axisModel.tx;
+			_this7.trinary.set_trit(v7);
+			if(_this7.trinary.changed) {
+				if(v7 == 0.) {
+					_this7.value = 0.;
+				} else {
+					var f7 = v7;
+					_this7.value = -f7 * _this7.step;
+				}
+			}
+		} else {
+			var v8 = 0.;
+			var _this8 = this.axisModel.tx;
+			_this8.trinary.set_trit(v8);
+			if(_this8.trinary.changed) {
+				if(v8 == 0.) {
+					_this8.value = 0.;
+				} else {
+					var f8 = v8;
+					_this8.value = -f8 * _this8.step;
+				}
+			}
+		}
+		if(this.characterInput.deleteDown) {
+			var v9 = 1.;
+			var _this9 = this.axisModel.tz;
+			_this9.trinary.set_trit(v9);
+			if(_this9.trinary.changed) {
+				if(v9 == 0.) {
+					_this9.value = 0.;
+				} else {
+					var f9 = v9;
+					_this9.value = -f9 * _this9.step;
+				}
+			}
+		} else if(this.characterInput.enterDown) {
+			var v10 = -1.;
+			var _this10 = this.axisModel.tz;
+			_this10.trinary.set_trit(v10);
+			if(_this10.trinary.changed) {
+				if(v10 == 0.) {
+					_this10.value = 0.;
+				} else {
+					var f10 = v10;
+					_this10.value = -f10 * _this10.step;
+				}
+			}
+		} else {
+			var v11 = 0.;
+			var _this11 = this.axisModel.tz;
+			_this11.trinary.set_trit(v11);
+			if(_this11.trinary.changed) {
+				if(v11 == 0.) {
+					_this11.value = 0.;
+				} else {
+					var f11 = v11;
+					_this11.value = -f11 * _this11.step;
+				}
+			}
+		}
+		console.log("src/Main.hx:77:",this.characterInput.commandDown());
+	}
+	,navDown: function() {
+		console.log("src/Main.hx:81:",this.characterInput.navDown());
+		if(this.characterInput.leftDown) {
+			var v = 1.;
+			var _this = this.axisModel.ry;
+			_this.trinary.set_trit(v);
+			if(_this.trinary.changed) {
+				if(v == 0.) {
+					_this.value = 0.;
+				} else {
+					var f = v;
+					_this.value = -f * _this.step;
+				}
+			}
+		} else if(this.characterInput.rightDown) {
+			var v1 = -1.;
+			var _this1 = this.axisModel.ry;
+			_this1.trinary.set_trit(v1);
+			if(_this1.trinary.changed) {
+				if(v1 == 0.) {
+					_this1.value = 0.;
+				} else {
+					var f1 = v1;
+					_this1.value = -f1 * _this1.step;
+				}
+			}
+		} else {
 			var v2 = 0.;
-			_this2.ryTrinary.set_trit(v2);
-			if(_this2.ryTrinary.changed) {
+			var _this2 = this.axisModel.ry;
+			_this2.trinary.set_trit(v2);
+			if(_this2.trinary.changed) {
 				if(v2 == 0.) {
-					_this2.yAxis = 0.;
+					_this2.value = 0.;
 				} else {
 					var f2 = v2;
-					_this2.yAxis = f2 * geom_QuatAxis.stepSize;
+					_this2.value = -f2 * _this2.step;
 				}
 			}
 		}
 		if(this.characterInput.upDown) {
-			var _this3 = this.quatAxis;
 			var v3 = 1.;
-			_this3.rxTrinary.set_trit(v3);
-			if(_this3.rxTrinary.changed) {
+			var _this3 = this.axisModel.rx;
+			_this3.trinary.set_trit(v3);
+			if(_this3.trinary.changed) {
 				if(v3 == 0.) {
-					_this3.xAxis = 0.;
+					_this3.value = 0.;
 				} else {
 					var f3 = v3;
-					_this3.xAxis = -f3 * geom_QuatAxis.stepSize;
+					_this3.value = -f3 * _this3.step;
 				}
 			}
 		} else if(this.characterInput.downDown) {
-			var _this4 = this.quatAxis;
 			var v4 = -1.;
-			_this4.rxTrinary.set_trit(v4);
-			if(_this4.rxTrinary.changed) {
+			var _this4 = this.axisModel.rx;
+			_this4.trinary.set_trit(v4);
+			if(_this4.trinary.changed) {
 				if(v4 == 0.) {
-					_this4.xAxis = 0.;
+					_this4.value = 0.;
 				} else {
 					var f4 = v4;
-					_this4.xAxis = -f4 * geom_QuatAxis.stepSize;
+					_this4.value = -f4 * _this4.step;
 				}
 			}
 		} else {
-			var _this5 = this.quatAxis;
 			var v5 = 0.;
-			_this5.rxTrinary.set_trit(v5);
-			if(_this5.rxTrinary.changed) {
+			var _this5 = this.axisModel.rx;
+			_this5.trinary.set_trit(v5);
+			if(_this5.trinary.changed) {
 				if(v5 == 0.) {
-					_this5.xAxis = 0.;
+					_this5.value = 0.;
 				} else {
 					var f5 = v5;
-					_this5.xAxis = -f5 * geom_QuatAxis.stepSize;
+					_this5.value = -f5 * _this5.step;
 				}
 			}
 		}
 	}
 	,letterDown: function(letter) {
-		if(letter == "q") {
-			var _this = this.quatAxis;
-			var v = 1.;
-			_this.tzTrinary.set_trit(v);
-			if(_this.tzTrinary.changed) {
-				if(v == 0.) {
-					_this.tz = 0.;
-				} else {
-					var f = v;
-					_this.tz = f * geom_QuatAxis.stepSize;
-				}
-			}
-		} else if(letter == "a") {
-			var _this1 = this.quatAxis;
-			var v1 = -1.;
-			_this1.tzTrinary.set_trit(v1);
-			if(_this1.tzTrinary.changed) {
-				if(v1 == 0.) {
-					_this1.tz = 0.;
-				} else {
-					var f1 = v1;
-					_this1.tz = f1 * geom_QuatAxis.stepSize;
-				}
-			}
-		} else {
-			var _this2 = this.quatAxis;
-			var v2 = 0.;
-			_this2.tzTrinary.set_trit(v2);
-			if(_this2.tzTrinary.changed) {
-				if(v2 == 0.) {
-					_this2.tz = 0.;
-				} else {
-					var f2 = v2;
-					_this2.tz = f2 * geom_QuatAxis.stepSize;
-				}
-			}
-		}
 	}
 	,darkBackground: function() {
 		var dark = 0.09375;
@@ -526,6 +617,7 @@ Main.prototype = $extend(htmlHelper_webgl_WebGLSetup.prototype,{
 		var j = 0;
 		var ox = -1.0;
 		var oy = 1.0;
+		var oz = 0.;
 		var no = 0;
 		var _g = 0;
 		while(_g < triangles.length) {
@@ -533,13 +625,13 @@ Main.prototype = $extend(htmlHelper_webgl_WebGLSetup.prototype,{
 			++_g;
 			this.vertices[i++] = tri1.ax * this.scale + ox;
 			this.vertices[i++] = -tri1.ay * this.scale + oy;
-			this.vertices[i++] = tri1.depth;
+			this.vertices[i++] = tri1.depth + oz;
 			this.vertices[i++] = tri1.bx * this.scale + ox;
 			this.vertices[i++] = -tri1.by * this.scale + oy;
-			this.vertices[i++] = tri1.depth;
+			this.vertices[i++] = tri1.depth + oz;
 			this.vertices[i++] = tri1.cx * this.scale + ox;
 			this.vertices[i++] = -tri1.cy * this.scale + oy;
-			this.vertices[i++] = tri1.depth;
+			this.vertices[i++] = tri1.depth + oz;
 			if(tri1.mark != 0) {
 				var int = triangleColors[tri1.mark];
 				rgb = { r : (int >> 16 & 255) / 255, g : (int >> 8 & 255) / 255, b : (int & 255) / 255};
@@ -564,13 +656,13 @@ Main.prototype = $extend(htmlHelper_webgl_WebGLSetup.prototype,{
 			this.indices[j++] = count++;
 			this.vertices[i++] = tri1.ax * this.scale + ox;
 			this.vertices[i++] = -tri1.ay * this.scale + oy;
-			this.vertices[i++] = tri1.depth;
+			this.vertices[i++] = tri1.depth + oz;
 			this.vertices[i++] = tri1.cx * this.scale + ox;
 			this.vertices[i++] = -tri1.cy * this.scale + oy;
-			this.vertices[i++] = tri1.depth;
+			this.vertices[i++] = tri1.depth + oz;
 			this.vertices[i++] = tri1.bx * this.scale + ox;
 			this.vertices[i++] = -tri1.by * this.scale + oy;
-			this.vertices[i++] = tri1.depth;
+			this.vertices[i++] = tri1.depth + oz;
 			if(tri1.mark != 0) {
 				var int2 = triangleColors[tri1.mark];
 				rgb = { r : (int2 >> 16 & 255) / 255, g : (int2 >> 8 & 255) / 255, b : (int2 & 255) / 255};
@@ -615,41 +707,119 @@ Main.prototype = $extend(htmlHelper_webgl_WebGLSetup.prototype,{
 		gl.bindBuffer(34962,null);
 	}
 	,render_: function(i) {
-		var _this = this.quatAxis;
-		var m = this.modelViewProjection;
-		if(_this.rxTrinary.changed || _this.ryTrinary.changed || _this.rzTrinary.changed) {
-			var n9 = _this.zAxis * 0.5;
-			var n6 = Math.sin(n9);
-			var n5 = Math.cos(n9);
-			var n8 = _this.xAxis * 0.5;
-			var n4 = Math.sin(n8);
-			var n3 = Math.cos(n8);
-			var n7 = _this.yAxis * 0.5;
-			var n2 = Math.sin(n7);
-			var n1 = Math.cos(n7);
-			var this1 = new geom_structure_Mat1x4(n1 * n4 * n5 + n2 * n3 * n6,n2 * n3 * n5 - n1 * n4 * n6,n1 * n3 * n6 - n2 * n4 * n5,n1 * n3 * n5 + n2 * n4 * n6);
-			var quat = this1;
-			var xx = quat.x * quat.x;
-			var xy = quat.x * quat.y;
-			var xz = quat.x * quat.z;
-			var xw = quat.x * quat.w;
-			var yy = quat.y * quat.y;
-			var yz = quat.y * quat.z;
-			var yw = quat.y * quat.w;
-			var zz = quat.z * quat.z;
-			var zw = quat.z * quat.w;
-			var this2 = new geom_structure_Mat4x3(1 - 2 * (yy + zz),2 * (xy - zw),2 * (xz + yw),0,2 * (xy + zw),1 - 2 * (xx + zz),2 * (yz - xw),0,2 * (xz - yw),2 * (yz + xw),1 - 2 * (xx + yy),0);
-			_this.m4x3 = this2;
-			var r = _this.m4x3;
-			var this3 = new geom_structure_Mat4x3(r.a * m.a + r.b * m.e + r.c * m.i,r.a * m.b + r.b * m.f + r.c * m.j,r.a * m.c + r.b * m.g + r.c * m.k,r.a * m.d + r.b * m.h + r.c * m.l + r.d,r.e * m.a + r.f * m.e + r.g * m.i,r.e * m.b + r.f * m.f + r.g * m.j,r.e * m.c + r.f * m.g + r.g * m.k,r.e * m.d + r.f * m.h + r.g * m.l + r.h,r.i * m.a + r.j * m.e + r.k * m.i,r.i * m.b + r.j * m.f + r.k * m.j,r.i * m.c + r.j * m.g + r.k * m.k,r.i * m.d + r.j * m.h + r.k * m.l + r.l);
-			m = this3;
+		this.model = this.axisModel.updateCalculate(this.model);
+		var q1 = this.offset;
+		var q2 = this.model;
+		var q11 = q2.real;
+		var q21 = q1.real;
+		var this1 = new geom_structure_Mat1x4(q11.x * q21.w + q11.y * q21.z - q11.z * q21.y + q11.w * q21.x,-q11.x * q21.z + q11.y * q21.w + q11.z * q21.x + q11.w * q21.y,q11.x * q21.y - q11.y * q21.x + q11.z * q21.w + q11.w * q21.z,-q11.x * q21.x - q11.y * q21.y - q11.z * q21.z + q11.w * q21.w);
+		var q12 = q2.dual;
+		var q22 = q1.real;
+		var this2 = new geom_structure_Mat1x4(q12.x * q22.w + q12.y * q22.z - q12.z * q22.y + q12.w * q22.x,-q12.x * q22.z + q12.y * q22.w + q12.z * q22.x + q12.w * q22.y,q12.x * q22.y - q12.y * q22.x + q12.z * q22.w + q12.w * q22.z,-q12.x * q22.x - q12.y * q22.y - q12.z * q22.z + q12.w * q22.w);
+		var a = this2;
+		var q13 = q1.dual;
+		var q23 = q2.real;
+		var this3 = new geom_structure_Mat1x4(q13.x * q23.w + q13.y * q23.z - q13.z * q23.y + q13.w * q23.x,-q13.x * q23.z + q13.y * q23.w + q13.z * q23.x + q13.w * q23.y,q13.x * q23.y - q13.y * q23.x + q13.z * q23.w + q13.w * q23.z,-q13.x * q23.x - q13.y * q23.y - q13.z * q23.z + q13.w * q23.w);
+		var b = this3;
+		var this4 = new geom_structure_Mat1x4(a.x + b.x,a.y + b.y,a.z + b.z,a.w + b.w);
+		var this5 = new geom_structure_DualQ(this1,this4);
+		var this6 = this5;
+		var a1 = this6.real;
+		var b1 = this6.real;
+		var mag = a1.x * b1.x + a1.y * b1.y + a1.z * b1.z + a1.w * b1.w;
+		var this7;
+		if(mag < 0) {
+			this7 = null;
+		} else {
+			var oneOver = 1 / mag;
+			var a2 = this6.real;
+			var this8 = new geom_structure_Mat1x4(a2.x * oneOver,a2.y * oneOver,a2.z * oneOver,a2.w * oneOver);
+			var a3 = this6.dual;
+			var this9 = new geom_structure_Mat1x4(a3.x * oneOver,a3.y * oneOver,a3.z * oneOver,a3.w * oneOver);
+			var this10 = new geom_structure_DualQ(this8,this9);
+			this7 = this10;
 		}
-		this.modelViewProjection = m;
-		var this4 = this.modelViewProjection;
+		var a4 = this7.real;
+		var b2 = this7.real;
+		var mag1 = a4.x * b2.x + a4.y * b2.y + a4.z * b2.z + a4.w * b2.w;
+		var q;
+		if(mag1 < 0) {
+			q = null;
+		} else {
+			var oneOver1 = 1 / mag1;
+			var a5 = this7.real;
+			var this11 = new geom_structure_Mat1x4(a5.x * oneOver1,a5.y * oneOver1,a5.z * oneOver1,a5.w * oneOver1);
+			var a6 = this7.dual;
+			var this12 = new geom_structure_Mat1x4(a6.x * oneOver1,a6.y * oneOver1,a6.z * oneOver1,a6.w * oneOver1);
+			var this13 = new geom_structure_DualQ(this11,this12);
+			q = this13;
+		}
+		var this14 = new geom_structure_Mat4x3(1.,0.,0.,0.,0.,1.,0.,0.,0.,0.,1.,0.);
+		var m = this14;
+		var w = q.real.w;
+		var x = q.real.x;
+		var y = q.real.y;
+		var z = q.real.z;
+		m.a = w * w + x * x - y * y - z * z;
+		m.e = 2 * x * y + 2 * w * z;
+		m.i = 2 * x * z - 2 * w * y;
+		m.b = 2 * x * y - 2 * w * z;
+		m.f = w * w + y * y - x * x - z * z;
+		m.j = 2 * y * z + 2 * w * x;
+		m.c = 2 * x * z + 2 * w * y;
+		m.g = 2 * y * z - 2 * w * x;
+		m.k = w * w + z * z - x * x - y * y;
+		var a7 = q.dual;
+		var this15 = new geom_structure_Mat1x4(a7.x * 2.,a7.y * 2.,a7.z * 2.,a7.w * 2.);
+		var q3 = this15;
+		var a8 = q.real;
+		var this16 = new geom_structure_Mat1x4(-a8.x,-a8.y,-a8.z,a8.w);
+		var q24 = this16;
+		var this17 = new geom_structure_Mat1x4(q3.x * q24.w + q3.y * q24.z - q3.z * q24.y + q3.w * q24.x,-q3.x * q24.z + q3.y * q24.w + q3.z * q24.x + q3.w * q24.y,q3.x * q24.y - q3.y * q24.x + q3.z * q24.w + q3.w * q24.z,-q3.x * q24.x - q3.y * q24.y - q3.z * q24.z + q3.w * q24.w);
+		q3 = this17;
+		var this18 = new geom_structure_Mat1x4(q3.x,q3.y,q3.z,1.);
+		var t = this18;
+		m.d = t.x;
+		m.h = t.y;
+		m.l = t.z;
+		var trans = m;
+		var scale = 1 / Math.tan(0.785398163395);
+		var dif = 99.9;
+		var this19 = new geom_structure_Mat4x4(scale,0.,0.,0.,0.,scale,0.,0.,0.,0.,-100. / dif,-1.,0.,0.,-10. / dif,0.);
+		var r = this19;
+		var this20 = new geom_structure_Mat4x4(trans.a,trans.b,trans.c,trans.d,trans.e,trans.f,trans.g,trans.h,trans.i,trans.j,trans.k,trans.l,0.,0.,0.,1.);
+		var s = this20;
+		var this21 = new geom_structure_Mat4x4(r.a * s.a + r.b * s.e + r.c * s.i + r.d * s.m,r.a * s.b + r.b * s.f + r.c * s.j + r.d * s.n,r.a * s.c + r.b * s.g + r.c * s.k + r.d * s.o,r.a * s.d + r.b * s.h + r.c * s.l + r.d * s.p,r.e * s.a + r.f * s.e + r.g * s.i + r.h * s.m,r.e * s.b + r.f * s.f + r.g * s.j + r.h * s.n,r.e * s.c + r.f * s.g + r.g * s.k + r.h * s.o,r.e * s.d + r.f * s.h + r.g * s.l + r.h * s.p,r.i * s.a + r.j * s.e + r.k * s.i + r.l * s.m,r.i * s.b + r.j * s.f + r.k * s.j + r.l * s.n,r.i * s.c + r.j * s.g + r.k * s.k + r.l * s.o,r.i * s.d + r.j * s.h + r.k * s.l + r.l * s.p,r.m * s.a + r.n * s.e + r.o * s.i + r.p * s.m,r.m * s.b + r.n * s.f + r.o * s.j + r.p * s.n,r.m + s.c + r.n * s.g + r.o * s.k + r.p * s.o,r.m * s.d + r.n * s.h + r.o * s.l + r.p * s.p);
+		var this22 = this21;
 		var arr = this.matrix32Array;
-		arr.set([this4.a,this4.b,this4.c,0.,this4.e,this4.f,this4.g,0.,this4.i,this4.j,this4.k,0.,this4.d,this4.h,this4.l,1.]);
-		console.log("src/Main.hx:152:","matrix32Array " + Std.string(this.matrix32Array));
+		arr.set([this22.a,this22.b,this22.c,this22.d,this22.e,this22.f,this22.g,this22.h,this22.i,this22.j,this22.k,this22.l,this22.m,this22.n,this22.o,this22.p]);
+		var proj4 = arr;
+		console.log("src/Main.hx:172:","matrix32Array " + Std.string(this.matrix32Array));
 		this.render();
+	}
+	,getOffset: function() {
+		var this1 = new geom_structure_Mat1x4(0.,0.,0.,1.);
+		var qReal = this1;
+		var this2 = new geom_structure_Mat1x4(0.,0.,-10.,1.);
+		var qDual = this2;
+		var currentLength = Math.sqrt(qReal.x * qReal.x + qReal.y * qReal.y + qReal.z * qReal.z + qReal.w * qReal.w);
+		if(currentLength != 0.) {
+			var mul = 1. / currentLength;
+			qReal.x *= mul;
+			qReal.y *= mul;
+			qReal.z *= mul;
+			qReal.w *= mul;
+			var real = qReal.x * qReal.x + qReal.y * qReal.y + qReal.z * qReal.z + qReal.w * qReal.w;
+		}
+		var real1 = qReal;
+		var this3 = new geom_structure_Mat1x4(qDual.x,qDual.y,qDual.z,0.);
+		var q = this3;
+		var this4 = new geom_structure_Mat1x4(q.x * 0.5,q.y * 0.5,q.z * 0.5,q.w * 0.5);
+		q = this4;
+		var this5 = new geom_structure_Mat1x4(q.x * real1.w + q.y * real1.z - q.z * real1.y + q.w * real1.x,-q.x * real1.z + q.y * real1.w + q.z * real1.x + q.w * real1.y,q.x * real1.y - q.y * real1.x + q.z * real1.w + q.w * real1.z,-q.x * real1.x - q.y * real1.y - q.z * real1.z + q.w * real1.w);
+		var dual = this5;
+		var this6 = new geom_structure_DualQ(real1,dual);
+		return this6;
 	}
 	,render: function() {
 		htmlHelper_webgl_WebGLSetup.prototype.render.call(this);
@@ -12520,6 +12690,197 @@ TrilateralTest.prototype = {
 		}
 	}
 };
+var geom_Axis = function() {
+	this.tz = new geom_Parameter();
+	this.ty = new geom_Parameter();
+	this.tx = new geom_Parameter();
+	this.rz = new geom_Parameter();
+	this.ry = new geom_Parameter();
+	this.rx = new geom_Parameter();
+};
+geom_Axis.__name__ = true;
+geom_Axis.perspective = function(angleOfView,near,far) {
+	if(far == null) {
+		far = 100.;
+	}
+	if(near == null) {
+		near = 0.1;
+	}
+	if(angleOfView == null) {
+		angleOfView = 1.57079632679;
+	}
+	var scale = 1 / Math.tan(angleOfView * 0.5);
+	var dif = far - near;
+	var this1 = new geom_structure_Mat4x4(scale,0.,0.,0.,0.,scale,0.,0.,0.,0.,-far / dif,-1.,0.,0.,-far * near / dif,0.);
+	return this1;
+};
+geom_Axis.perspectiveAspect = function(fov,aspectRatio,near,far) {
+	var f = 1.0 / Math.tan(fov / 2);
+	var rangeInv = 1 / (near - far);
+	var this1 = new geom_structure_Mat4x4(f / aspectRatio,0.,0.,0.,0.,f,0.,0.,0.,0.,(near + far) * rangeInv,-1.,0.,0.,near * far * rangeInv * 2,0.);
+	return this1;
+};
+geom_Axis.projectionWindow = function(wid,hi,fov) {
+	var halfWid = wid / 2;
+	var halfHi = hi / 2;
+	var tanHalf = Math.tan(fov / 2);
+	var scale = halfWid / tanHalf;
+	var this1 = new geom_structure_Mat4x3(scale,-0.,-scale,0.,0.,-scale,-halfHi / tanHalf,0.,0.,0.,-1,0.);
+	return this1;
+};
+geom_Axis.prototype = {
+	pitch: function(v) {
+		var _this = this.rx;
+		_this.trinary.set_trit(v);
+		if(_this.trinary.changed) {
+			if(v == 0.) {
+				_this.value = 0.;
+			} else {
+				var f = v;
+				_this.value = -f * _this.step;
+			}
+		}
+	}
+	,yaw: function(v) {
+		var _this = this.ry;
+		_this.trinary.set_trit(v);
+		if(_this.trinary.changed) {
+			if(v == 0.) {
+				_this.value = 0.;
+			} else {
+				var f = v;
+				_this.value = -f * _this.step;
+			}
+		}
+	}
+	,roll: function(v) {
+		var _this = this.rz;
+		_this.trinary.set_trit(v);
+		if(_this.trinary.changed) {
+			if(v == 0.) {
+				_this.value = 0.;
+			} else {
+				var f = v;
+				_this.value = -f * _this.step;
+			}
+		}
+	}
+	,alongX: function(v) {
+		var _this = this.tx;
+		_this.trinary.set_trit(v);
+		if(_this.trinary.changed) {
+			if(v == 0.) {
+				_this.value = 0.;
+			} else {
+				var f = v;
+				_this.value = -f * _this.step;
+			}
+		}
+	}
+	,alongY: function(v) {
+		var _this = this.ty;
+		_this.trinary.set_trit(v);
+		if(_this.trinary.changed) {
+			if(v == 0.) {
+				_this.value = 0.;
+			} else {
+				var f = v;
+				_this.value = -f * _this.step;
+			}
+		}
+	}
+	,alongZ: function(v) {
+		var _this = this.tz;
+		_this.trinary.set_trit(v);
+		if(_this.trinary.changed) {
+			if(v == 0.) {
+				_this.value = 0.;
+			} else {
+				var f = v;
+				_this.value = -f * _this.step;
+			}
+		}
+	}
+	,updateCalculate: function(q) {
+		var rotations = this.rx.trinary.changed || this.ry.trinary.changed || this.rz.trinary.changed;
+		var translations = this.tx.trinary.changed || this.ty.trinary.changed || this.tz.trinary.changed;
+		if(translations || rotations) {
+			var qReal;
+			if(rotations) {
+				var n9 = this.rz.value * 0.5;
+				var n6 = Math.sin(n9);
+				var n5 = Math.cos(n9);
+				var n8 = this.rx.value * 0.5;
+				var n4 = Math.sin(n8);
+				var n3 = Math.cos(n8);
+				var n7 = this.ry.value * 0.5;
+				var n2 = Math.sin(n7);
+				var n1 = Math.cos(n7);
+				var this1 = new geom_structure_Mat1x4(n1 * n4 * n5 + n2 * n3 * n6,n2 * n3 * n5 - n1 * n4 * n6,n1 * n3 * n6 - n2 * n4 * n5,n1 * n3 * n5 + n2 * n4 * n6);
+				qReal = this1;
+			} else {
+				var this2 = new geom_structure_Mat1x4(0.,0.,0.,1.);
+				qReal = this2;
+			}
+			var qDual;
+			if(translations) {
+				var this3 = new geom_structure_Mat1x4(this.tx.value,this.ty.value,this.tz.value,1.);
+				qDual = this3;
+			} else {
+				var this4 = new geom_structure_Mat1x4(0.,0.,0.,0.);
+				qDual = this4;
+			}
+			var currentLength = Math.sqrt(qReal.x * qReal.x + qReal.y * qReal.y + qReal.z * qReal.z + qReal.w * qReal.w);
+			if(currentLength != 0.) {
+				var mul = 1. / currentLength;
+				qReal.x *= mul;
+				qReal.y *= mul;
+				qReal.z *= mul;
+				qReal.w *= mul;
+				var real = qReal.x * qReal.x + qReal.y * qReal.y + qReal.z * qReal.z + qReal.w * qReal.w;
+			}
+			var real1 = qReal;
+			var this5 = new geom_structure_Mat1x4(qDual.x,qDual.y,qDual.z,0.);
+			var q1 = this5;
+			var this6 = new geom_structure_Mat1x4(q1.x * 0.5,q1.y * 0.5,q1.z * 0.5,q1.w * 0.5);
+			q1 = this6;
+			var this7 = new geom_structure_Mat1x4(q1.x * real1.w + q1.y * real1.z - q1.z * real1.y + q1.w * real1.x,-q1.x * real1.z + q1.y * real1.w + q1.z * real1.x + q1.w * real1.y,q1.x * real1.y - q1.y * real1.x + q1.z * real1.w + q1.w * real1.z,-q1.x * real1.x - q1.y * real1.y - q1.z * real1.z + q1.w * real1.w);
+			var dual = this7;
+			var this8 = new geom_structure_DualQ(real1,dual);
+			var dualQuaternion = this8;
+			var q11 = q.real;
+			var q2 = dualQuaternion.real;
+			var this9 = new geom_structure_Mat1x4(q11.x * q2.w + q11.y * q2.z - q11.z * q2.y + q11.w * q2.x,-q11.x * q2.z + q11.y * q2.w + q11.z * q2.x + q11.w * q2.y,q11.x * q2.y - q11.y * q2.x + q11.z * q2.w + q11.w * q2.z,-q11.x * q2.x - q11.y * q2.y - q11.z * q2.z + q11.w * q2.w);
+			var q12 = q.dual;
+			var q21 = dualQuaternion.real;
+			var this10 = new geom_structure_Mat1x4(q12.x * q21.w + q12.y * q21.z - q12.z * q21.y + q12.w * q21.x,-q12.x * q21.z + q12.y * q21.w + q12.z * q21.x + q12.w * q21.y,q12.x * q21.y - q12.y * q21.x + q12.z * q21.w + q12.w * q21.z,-q12.x * q21.x - q12.y * q21.y - q12.z * q21.z + q12.w * q21.w);
+			var a = this10;
+			var q13 = dualQuaternion.dual;
+			var q22 = q.real;
+			var this11 = new geom_structure_Mat1x4(q13.x * q22.w + q13.y * q22.z - q13.z * q22.y + q13.w * q22.x,-q13.x * q22.z + q13.y * q22.w + q13.z * q22.x + q13.w * q22.y,q13.x * q22.y - q13.y * q22.x + q13.z * q22.w + q13.w * q22.z,-q13.x * q22.x - q13.y * q22.y - q13.z * q22.z + q13.w * q22.w);
+			var b = this11;
+			var this12 = new geom_structure_Mat1x4(a.x + b.x,a.y + b.y,a.z + b.z,a.w + b.w);
+			var this13 = new geom_structure_DualQ(this9,this12);
+			return this13;
+		} else {
+			return q;
+		}
+	}
+	,rotationChanged: function() {
+		if(!(this.rx.trinary.changed || this.ry.trinary.changed)) {
+			return this.rz.trinary.changed;
+		} else {
+			return true;
+		}
+	}
+	,translationChanged: function() {
+		if(!(this.tx.trinary.changed || this.ty.trinary.changed)) {
+			return this.tz.trinary.changed;
+		} else {
+			return true;
+		}
+	}
+};
 var geom__$DualQuaternion_DualQuaternion_$Impl_$ = {};
 geom__$DualQuaternion_DualQuaternion_$Impl_$.__name__ = true;
 geom__$DualQuaternion_DualQuaternion_$Impl_$._new = function(dq) {
@@ -14134,14 +14495,6 @@ geom__$Matrix4x3_Matrix4x3_$Impl_$.inverse = function(this1) {
 		return this2;
 	}
 };
-geom__$Matrix4x3_Matrix4x3_$Impl_$.projectionWindow = function(wid,hi,fov) {
-	var halfWid = wid / 2;
-	var halfHi = hi / 2;
-	var tanHalf = Math.tan(fov / 2);
-	var scale = halfWid / tanHalf;
-	var this1 = new geom_structure_Mat4x3(scale,-0.,-scale,0.,0.,-scale,-halfHi / tanHalf,0.,0.,0.,-1,0.);
-	return this1;
-};
 geom__$Matrix4x3_Matrix4x3_$Impl_$.orientation = function(pos,dir,up) {
 	var this1 = new geom_structure_Mat1x4(dir.y * up.z - dir.z * up.y,dir.z * up.x - dir.x * up.z,dir.x * up.y - dir.y * up.x,dir.w * up.w);
 	var right = this1;
@@ -14377,7 +14730,7 @@ geom__$Matrix4x3_Matrix4x3_$Impl_$.getXY = function(this1,x,y) {
 	}
 };
 geom__$Matrix4x3_Matrix4x3_$Impl_$.toFloat32Array = function(this1,arr) {
-	arr.set([this1.a,this1.b,this1.c,0.,this1.e,this1.f,this1.g,0.,this1.i,this1.j,this1.k,0.,this1.d,this1.h,this1.l,1.]);
+	arr.set([this1.a,this1.b,this1.c,this1.d,this1.e,this1.f,this1.g,this1.h,this1.i,this1.j,this1.k,this1.l,0.,0.,0.,1.]);
 	return arr;
 };
 var geom__$Matrix4x4_Matrix4x4_$Impl_$ = {};
@@ -14406,165 +14759,68 @@ geom__$Matrix4x4_Matrix4x4_$Impl_$.multiply = function(r,s) {
 	var this1 = new geom_structure_Mat4x4(r.a * s.a + r.b * s.e + r.c * s.i + r.d * s.m,r.a * s.b + r.b * s.f + r.c * s.j + r.d * s.n,r.a * s.c + r.b * s.g + r.c * s.k + r.d * s.o,r.a * s.d + r.b * s.h + r.c * s.l + r.d * s.p,r.e * s.a + r.f * s.e + r.g * s.i + r.h * s.m,r.e * s.b + r.f * s.f + r.g * s.j + r.h * s.n,r.e * s.c + r.f * s.g + r.g * s.k + r.h * s.o,r.e * s.d + r.f * s.h + r.g * s.l + r.h * s.p,r.i * s.a + r.j * s.e + r.k * s.i + r.l * s.m,r.i * s.b + r.j * s.f + r.k * s.j + r.l * s.n,r.i * s.c + r.j * s.g + r.k * s.k + r.l * s.o,r.i * s.d + r.j * s.h + r.k * s.l + r.l * s.p,r.m * s.a + r.n * s.e + r.o * s.i + r.p * s.m,r.m * s.b + r.n * s.f + r.o * s.j + r.p * s.n,r.m + s.c + r.n * s.g + r.o * s.k + r.p * s.o,r.m * s.d + r.n * s.h + r.o * s.l + r.p * s.p);
 	return this1;
 };
-geom__$Matrix4x4_Matrix4x4_$Impl_$.perspective = function(fov,aspectRatio,near,far) {
-	var f = 1.0 / Math.tan(fov / 2);
-	var rangeInv = 1 / (near - far);
-	var this1 = new geom_structure_Mat4x4(f / aspectRatio,0.,0.,0.,0.,f,0.,0.,0.,0.,(near + far) * rangeInv,-1.,0.,0.,near * far * rangeInv * 2,0.);
-	return this1;
+geom__$Matrix4x4_Matrix4x4_$Impl_$.delta = function(this1,x,y) {
+	var m = this1;
+	var this2 = new geom_structure_Mat4x4(m.a,m.b,m.c,m.d,m.e,m.f,m.g,m.h,m.i,m.j,m.k,m.l,m.m + x,m.n + y,m.o,m.p);
+	return this2;
 };
 geom__$Matrix4x4_Matrix4x4_$Impl_$.matrix4x3 = function(m) {
-	var this1 = new geom_structure_Mat4x4(m.a,m.b,m.b,m.c,m.e,m.f,m.g,m.h,m.i,m.j,m.k,m.l,0.,0.,0.,1.);
+	var this1 = new geom_structure_Mat4x4(m.a,m.b,m.c,m.d,m.e,m.f,m.g,m.h,m.i,m.j,m.k,m.l,0.,0.,0.,1.);
 	return this1;
 };
 geom__$Matrix4x4_Matrix4x4_$Impl_$.toFloat32Array = function(this1,arr) {
 	arr.set([this1.a,this1.b,this1.c,this1.d,this1.e,this1.f,this1.g,this1.h,this1.i,this1.j,this1.k,this1.l,this1.m,this1.n,this1.o,this1.p]);
 	return arr;
 };
-var geom_QuatAxis = function() {
-	this.tzTrinary = new geom_Trinary(0.);
-	this.tyTrinary = new geom_Trinary(0.);
-	this.txTrinary = new geom_Trinary(0.);
-	this.rzTrinary = new geom_Trinary(0.);
-	this.ryTrinary = new geom_Trinary(0.);
-	this.rxTrinary = new geom_Trinary(0.);
-	this.tz = 0.;
-	this.ty = 0.;
-	this.tx = 0.;
-	this.zAxis = 0.;
-	this.yAxis = 0.;
-	this.xAxis = 0.;
+var geom_Parameter = function() {
+	this.trinary = new geom_Trinary(0.);
+	this.value = 0.;
+	this.step = 0.005;
 };
-geom_QuatAxis.__name__ = true;
-geom_QuatAxis.prototype = {
-	pitch: function(v) {
-		this.rxTrinary.set_trit(v);
-		if(this.rxTrinary.changed) {
+geom_Parameter.__name__ = true;
+geom_Parameter.prototype = {
+	update: function(v) {
+		this.trinary.set_trit(v);
+		if(this.trinary.changed) {
 			if(v == 0.) {
-				this.xAxis = 0.;
+				this.value = 0.;
 			} else {
 				var f = v;
-				this.xAxis = -f * geom_QuatAxis.stepSize;
+				this.value = -f * this.step;
 			}
 		}
 	}
-	,rotateAroundX: function(v) {
-		this.rxTrinary.set_trit(v);
-		if(this.rxTrinary.changed) {
-			if(v == 0.) {
-				this.xAxis = 0.;
-			} else {
-				var f = v;
-				this.xAxis = -f * geom_QuatAxis.stepSize;
-			}
-		}
+};
+var geom_Projection = function() { };
+geom_Projection.__name__ = true;
+geom_Projection.perspective = function(angleOfView,near,far) {
+	if(far == null) {
+		far = 100.;
 	}
-	,yaw: function(v) {
-		this.ryTrinary.set_trit(v);
-		if(this.ryTrinary.changed) {
-			if(v == 0.) {
-				this.yAxis = 0.;
-			} else {
-				var f = v;
-				this.yAxis = f * geom_QuatAxis.stepSize;
-			}
-		}
+	if(near == null) {
+		near = 0.1;
 	}
-	,rotateAroundY: function(v) {
-		this.ryTrinary.set_trit(v);
-		if(this.ryTrinary.changed) {
-			if(v == 0.) {
-				this.yAxis = 0.;
-			} else {
-				var f = v;
-				this.yAxis = f * geom_QuatAxis.stepSize;
-			}
-		}
+	if(angleOfView == null) {
+		angleOfView = 1.57079632679;
 	}
-	,roll: function(v) {
-		this.rzTrinary.set_trit(v);
-		if(this.rzTrinary.changed) {
-			if(v == 0.) {
-				this.zAxis = 0.;
-			} else {
-				var f = v;
-				this.zAxis = f * geom_QuatAxis.stepSize;
-			}
-		}
-	}
-	,rotateAroundZ: function(v) {
-		this.rzTrinary.set_trit(v);
-		if(this.rzTrinary.changed) {
-			if(v == 0.) {
-				this.zAxis = 0.;
-			} else {
-				var f = v;
-				this.zAxis = f * geom_QuatAxis.stepSize;
-			}
-		}
-	}
-	,alongX: function(v) {
-		this.txTrinary.set_trit(v);
-		if(this.txTrinary.changed) {
-			if(v == 0.) {
-				this.tx = 0.;
-			} else {
-				var f = v;
-				this.tx = f * geom_QuatAxis.stepSize;
-			}
-		}
-	}
-	,alongY: function(v) {
-		this.tyTrinary.set_trit(v);
-		if(this.tyTrinary.changed) {
-			if(v == 0.) {
-				this.ty = 0.;
-			} else {
-				var f = v;
-				this.ty = f * geom_QuatAxis.stepSize;
-			}
-		}
-	}
-	,alongZ: function(v) {
-		this.tzTrinary.set_trit(v);
-		if(this.tzTrinary.changed) {
-			if(v == 0.) {
-				this.tz = 0.;
-			} else {
-				var f = v;
-				this.tz = f * geom_QuatAxis.stepSize;
-			}
-		}
-	}
-	,updateCalculate: function(m) {
-		if(this.rxTrinary.changed || this.ryTrinary.changed || this.rzTrinary.changed) {
-			var n9 = this.zAxis * 0.5;
-			var n6 = Math.sin(n9);
-			var n5 = Math.cos(n9);
-			var n8 = this.xAxis * 0.5;
-			var n4 = Math.sin(n8);
-			var n3 = Math.cos(n8);
-			var n7 = this.yAxis * 0.5;
-			var n2 = Math.sin(n7);
-			var n1 = Math.cos(n7);
-			var this1 = new geom_structure_Mat1x4(n1 * n4 * n5 + n2 * n3 * n6,n2 * n3 * n5 - n1 * n4 * n6,n1 * n3 * n6 - n2 * n4 * n5,n1 * n3 * n5 + n2 * n4 * n6);
-			var quat = this1;
-			var xx = quat.x * quat.x;
-			var xy = quat.x * quat.y;
-			var xz = quat.x * quat.z;
-			var xw = quat.x * quat.w;
-			var yy = quat.y * quat.y;
-			var yz = quat.y * quat.z;
-			var yw = quat.y * quat.w;
-			var zz = quat.z * quat.z;
-			var zw = quat.z * quat.w;
-			var this2 = new geom_structure_Mat4x3(1 - 2 * (yy + zz),2 * (xy - zw),2 * (xz + yw),0,2 * (xy + zw),1 - 2 * (xx + zz),2 * (yz - xw),0,2 * (xz - yw),2 * (yz + xw),1 - 2 * (xx + yy),0);
-			this.m4x3 = this2;
-			var r = this.m4x3;
-			var this3 = new geom_structure_Mat4x3(r.a * m.a + r.b * m.e + r.c * m.i,r.a * m.b + r.b * m.f + r.c * m.j,r.a * m.c + r.b * m.g + r.c * m.k,r.a * m.d + r.b * m.h + r.c * m.l + r.d,r.e * m.a + r.f * m.e + r.g * m.i,r.e * m.b + r.f * m.f + r.g * m.j,r.e * m.c + r.f * m.g + r.g * m.k,r.e * m.d + r.f * m.h + r.g * m.l + r.h,r.i * m.a + r.j * m.e + r.k * m.i,r.i * m.b + r.j * m.f + r.k * m.j,r.i * m.c + r.j * m.g + r.k * m.k,r.i * m.d + r.j * m.h + r.k * m.l + r.l);
-			m = this3;
-		}
-		return m;
-	}
+	var scale = 1 / Math.tan(angleOfView * 0.5);
+	var dif = far - near;
+	var this1 = new geom_structure_Mat4x4(scale,0.,0.,0.,0.,scale,0.,0.,0.,0.,-far / dif,-1.,0.,0.,-far * near / dif,0.);
+	return this1;
+};
+geom_Projection.perspectiveAspect = function(fov,aspectRatio,near,far) {
+	var f = 1.0 / Math.tan(fov / 2);
+	var rangeInv = 1 / (near - far);
+	var this1 = new geom_structure_Mat4x4(f / aspectRatio,0.,0.,0.,0.,f,0.,0.,0.,0.,(near + far) * rangeInv,-1.,0.,0.,near * far * rangeInv * 2,0.);
+	return this1;
+};
+geom_Projection.projectionWindow = function(wid,hi,fov) {
+	var halfWid = wid / 2;
+	var halfHi = hi / 2;
+	var tanHalf = Math.tan(fov / 2);
+	var scale = halfWid / tanHalf;
+	var this1 = new geom_structure_Mat4x3(scale,-0.,-scale,0.,0.,-scale,-halfHi / tanHalf,0.,0.,0.,-1,0.);
+	return this1;
 };
 var geom__$Quaternion_Quaternion_$Impl_$ = {};
 geom__$Quaternion_Quaternion_$Impl_$.__name__ = true;
@@ -15125,6 +15381,7 @@ var htmlHelper_tools_CharacterInput = function() {
 	this.cmdDown = false;
 	this.altDown = false;
 	this.tabDown = false;
+	this.deleteDown = false;
 	this.enterDown = false;
 	this.shiftDown = false;
 	this.upDown = false;
@@ -15135,13 +15392,13 @@ var htmlHelper_tools_CharacterInput = function() {
 	window.document.onkeydown = $bind(this,this.keyDown);
 	window.document.onkeyup = $bind(this,this.keyUp);
 	this.navSignal = function() {
-		console.log("/projects/May2019/myLibraries/htmlHelper//htmlHelper/tools/CharacterInput.hx:25:",_gthis.navDown());
+		console.log("/projects/May2019/myLibraries/htmlHelper//htmlHelper/tools/CharacterInput.hx:26:",_gthis.navDown());
 	};
 	this.commandSignal = function() {
-		console.log("/projects/May2019/myLibraries/htmlHelper//htmlHelper/tools/CharacterInput.hx:26:",_gthis.commandDown());
+		console.log("/projects/May2019/myLibraries/htmlHelper//htmlHelper/tools/CharacterInput.hx:27:",_gthis.commandDown());
 	};
 	this.letterSignal = function(s) {
-		console.log("/projects/May2019/myLibraries/htmlHelper//htmlHelper/tools/CharacterInput.hx:27:","letter pressed " + s);
+		console.log("/projects/May2019/myLibraries/htmlHelper//htmlHelper/tools/CharacterInput.hx:28:","letter pressed " + s);
 	};
 };
 htmlHelper_tools_CharacterInput.__name__ = true;
@@ -15185,12 +15442,19 @@ htmlHelper_tools_CharacterInput.prototype = {
 		if(this.controlDown) {
 			str += "control,";
 		}
+		if(this.deleteDown) {
+			str += "delete";
+		}
 		return str;
 	}
 	,keyDown: function(e) {
 		e.preventDefault();
 		var keyCode = e.keyCode;
 		switch(keyCode) {
+		case 8:
+			this.deleteDown = true;
+			this.commandSignal();
+			break;
 		case 9:
 			this.tabDown = true;
 			this.commandSignal();
@@ -15245,6 +15509,10 @@ htmlHelper_tools_CharacterInput.prototype = {
 		e.preventDefault();
 		var keyCode = e.keyCode;
 		switch(keyCode) {
+		case 8:
+			this.deleteDown = false;
+			this.commandSignal();
+			break;
 		case 9:
 			this.tabDown = false;
 			this.commandSignal();
@@ -38271,7 +38539,6 @@ Object.defineProperty(js__$Boot_HaxeError.prototype,"message",{ get : function()
 }});
 js_Boot.__toStr = ({ }).toString;
 Main.stageRadius = 600;
-geom_QuatAxis.stepSize = 0.01;
 htmlHelper_tools_AnimateTimer.counter = 0;
 shaders_Shaders.vertex = "attribute vec3 pos;" + "attribute vec4 color;" + "varying vec4 vcol;" + "uniform mat4 modelViewProjection;" + "void main(void) {" + " gl_Position = modelViewProjection * vec4(pos, 1.);" + " vcol = color;" + "}";
 shaders_Shaders.fragment = "precision mediump float;" + "varying vec4 vcol;" + "void main(void) {" + " gl_FragColor = vcol;" + "}";
